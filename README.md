@@ -20,14 +20,14 @@ git clone https://github.com/2024-DEV2-020/tic-tac-toe-kata.git
 
 2. Open the project in Android Studio
 
-3. Build the project via the UI or CLI (if it's not done automatically):
+3. Build the project via the IDE UI or CLI (if it's not done automatically):
 ```bash
 ./gradlew build
 ```
 
 ## Running the App
 1. Connect a physical Android device or start an emulator (Android 7.0 up to Android 15)
-2. Run the app via the UI green play button or via the CLI:
+2. Run the app via the IDE UI green play button or via the CLI:
 ```bash
 ./gradlew installDebug
 ```
