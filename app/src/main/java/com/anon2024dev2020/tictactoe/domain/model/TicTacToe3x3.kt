@@ -1,13 +1,11 @@
 package com.anon2024dev2020.tictactoe.domain.model
 
 data class TicTacToe3x3(
+    val currentPlayer: Player = Player.X,
     private val grid: Grid3x3 = Grid3x3(),
 ) {
-    val currentPlayer: Player = Player.X
 
-//    fun getPosition(row: Int, col: Int): Player?
-//    fun placeMark(int): GameMarkPlacementResult
-//    fun getState(): GameState
+    val state: TicTacToe3x3State = TicTacToe3x3State.InProgress // TODO: complete
 
     /**
      * Marks a cell in the Tic-Tac-Toe grid with the current player's symbol.
@@ -17,7 +15,11 @@ data class TicTacToe3x3(
      * @return A [TicTacToe3x3Result] indicating the success or failure of the operation.
      */
     fun markCell(row: Int, column: Int): TicTacToe3x3Result {
-        TODO()
+        // TODO: call grid
+        return TicTacToe3x3Result.Success(
+            actionPerformer = currentPlayer,
+            updatedTicTacToe = this.copy(currentPlayer = currentPlayer.opponent),
+        )
     }
 
     fun getCell(row: Int, column: Int): Player? {
@@ -33,5 +35,11 @@ data class TicTacToe3x3(
         enum class TicTacToe3x3Error {
             INVALID_MARK
         }
+    }
+
+    sealed class TicTacToe3x3State {
+        object InProgress : TicTacToe3x3State()
+        data class Victory(val winner: Player) : TicTacToe3x3State()
+        object Draw : TicTacToe3x3State()
     }
 }

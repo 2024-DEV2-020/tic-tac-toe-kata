@@ -1,6 +1,6 @@
 package com.anon2024dev2020.tictactoe.domain.model
 
-class Grid3x3 {
+class Grid3x3() {
 
 
 

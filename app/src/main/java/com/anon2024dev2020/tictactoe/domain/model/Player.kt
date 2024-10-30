@@ -4,3 +4,9 @@ enum class Player {
     X, O
 }
 
+val Player.opponent: Player
+    get() = when (this) {
+        Player.X -> Player.O
+        Player.O -> Player.X
+    }
+
