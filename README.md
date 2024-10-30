@@ -32,7 +32,7 @@ All JUnit tests are in [TODO]
 ```
 
 ## Running the App
-1. Connect a physical Android device or start an emulator
+1. Connect a physical Android device or start an emulator (Android 7.0 up to Android 15)
 2. Run the app via the UI green play button or CLI:
 ```bash
 ./gradlew installDebug

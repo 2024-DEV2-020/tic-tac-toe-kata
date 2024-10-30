@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Tic Tac Toe</string>
+    <string name="fab_text_navigate_to_game">Go to Game</string>
+    <string name="fab_text_navigate_to_home">Go to Home</string>
+</resources>
