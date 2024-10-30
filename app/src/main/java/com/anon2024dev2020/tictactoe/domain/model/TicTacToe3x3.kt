@@ -33,7 +33,8 @@ data class TicTacToe3x3(
         data class Failure(val reason: TicTacToe3x3Error) : TicTacToe3x3Result()
 
         enum class TicTacToe3x3Error {
-            INVALID_MARK
+            OCCUPIED_CELL,
+            OUT_OF_BOUNDS
         }
     }
 
