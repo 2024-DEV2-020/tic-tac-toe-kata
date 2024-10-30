@@ -5,15 +5,24 @@ import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
 import org.junit.Assert.assertTrue
 
 internal val movesForDrawWhenXStarts = setOf(
-    Pair(0, 1), // X
-    Pair(0, 0), // O
-    Pair(1, 1), // X
-    Pair(0, 2), // O
-    Pair(1, 2), // X
-    Pair(1, 0), // O
-    Pair(2, 0), // X
-    Pair(2, 1), // O
-    Pair(2, 2)  // X
+    // X
+    Pair(0, 1),
+    // O
+    Pair(0, 0),
+    // X
+    Pair(1, 1),
+    // O
+    Pair(0, 2),
+    // X
+    Pair(1, 2),
+    // O
+    Pair(1, 0),
+    // X
+    Pair(2, 0),
+    // O
+    Pair(2, 1),
+    // X
+    Pair(2, 2),
 )
 
 /**
@@ -66,7 +75,7 @@ internal fun printGrid3x3(game: TicTacToe3x3) {
     println("Current game state:")
     for (row in 0..2) {
         for (col in 0..2) {
-            val cell = when (game.getCell(row, col)) {
+            val cell = when (game.getPlayerAtCell(row, col)) {
                 Player.X -> "X"
                 Player.O -> "O"
                 null -> " "

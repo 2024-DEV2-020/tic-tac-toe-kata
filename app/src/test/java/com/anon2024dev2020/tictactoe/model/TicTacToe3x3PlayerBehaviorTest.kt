@@ -1,12 +1,10 @@
 package com.anon2024dev2020.tictactoe.model
 
-import com.anon2024dev2020.tictactoe.domain.model.Grid3x3
 import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-
 
 class TicTacToe3x3PlayerBehaviorTest {
     private lateinit var game: TicTacToe3x3

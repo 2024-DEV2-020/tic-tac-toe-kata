@@ -4,6 +4,7 @@ import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertThrows
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -20,19 +21,38 @@ class TicTacToe3x3GridBehaviorTest {
     fun `new grid should be empty`() {
         for (row in 0..2) {
             for (col in 0..2) {
-                assertNull(game.getCell(row, col))
+                assertNull(game.getPlayerAtCell(row, col))
             }
         }
     }
 
     @Test
     fun `markCell should succeed and place X in empty cell`() {
-        val result = game.markCell(0, 0)
-        assertTrue(
-            "Expected successful mark placement",
-            result is TicTacToe3x3.TicTacToe3x3Result.Success,
+        game = markCellAndAssertSuccess(game = game, row = 0, column = 0).updatedTicTacToe
+        assertEquals(
+            "Cell should contain X after placement",
+            Player.X,
+            game.getPlayerAtCell(
+                0,
+                0,
+            ),
         )
-        assertEquals("Cell should contain X after placement", Player.X, game.getCell(0, 0))
+    }
+
+    @Test
+    fun `markCell should succeed and place O in empty cell`() {
+        // X Plays
+        game = markCellAndAssertSuccess(game = game, row = 0, column = 0).updatedTicTacToe
+        // Y Plays
+        game = markCellAndAssertSuccess(game = game, row = 1, column = 0).updatedTicTacToe
+        assertEquals(
+            "Cell should contain O after placement",
+            Player.O,
+            game.getPlayerAtCell(
+                1,
+                0,
+            ),
+        )
     }
 
     @Test
@@ -79,10 +99,18 @@ class TicTacToe3x3GridBehaviorTest {
     }
 
     @Test
-    fun `getCell should return null for out of bounds coordinates`() {
-        assertNull(game.getCell(-1, 0))
-        assertNull(game.getCell(0, -1))
-        assertNull(game.getCell(3, 0))
-        assertNull(game.getCell(0, 3))
+    fun `getPlayerAtCell should throw IllegalArgumentException for out of bounds coordinates`() {
+        val outOfBoundsCoordinates = listOf(
+            Pair(-1, 0),
+            Pair(0, -1),
+            Pair(3, 0),
+            Pair(0, 3),
+        )
+
+        outOfBoundsCoordinates.forEach { (row, col) ->
+            assertThrows(IllegalArgumentException::class.java) {
+                game.getPlayerAtCell(row, col)
+            }
+        }
     }
 }

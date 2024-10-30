@@ -1,7 +1,8 @@
 package com.anon2024dev2020.tictactoe.domain.model
 
 enum class Player {
-    X, O
+    X,
+    O,
 }
 
 val Player.opponent: Player
@@ -9,4 +10,3 @@ val Player.opponent: Player
         Player.X -> Player.O
         Player.O -> Player.X
     }
-

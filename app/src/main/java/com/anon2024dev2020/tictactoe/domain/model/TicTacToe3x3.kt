@@ -15,15 +15,33 @@ data class TicTacToe3x3(
      * @return A [TicTacToe3x3Result] indicating the success or failure of the operation.
      */
     fun markCell(row: Int, column: Int): TicTacToe3x3Result {
-        // TODO: call grid
-        return TicTacToe3x3Result.Success(
-            actionPerformer = currentPlayer,
-            updatedTicTacToe = this.copy(currentPlayer = currentPlayer.opponent),
-        )
+        val result = grid.markCell(player = currentPlayer, row = row, column = column)
+
+        return when (result) {
+            is Grid3x3.Grid3x3Result.Failure -> {
+                TicTacToe3x3Result.Failure(
+                    reason = when (result.reason) {
+                        Grid3x3.Grid3x3Result.Grid3x3Error.OCCUPIED_CELL ->
+                            TicTacToe3x3Result.TicTacToe3x3Error.OCCUPIED_CELL
+
+                        Grid3x3.Grid3x3Result.Grid3x3Error.OUT_OF_BOUNDS ->
+                            TicTacToe3x3Result.TicTacToe3x3Error.OUT_OF_BOUNDS
+                    },
+                )
+            }
+
+            is Grid3x3.Grid3x3Result.Success -> TicTacToe3x3Result.Success(
+                actionPerformer = currentPlayer,
+                updatedTicTacToe = this.copy(
+                    currentPlayer = currentPlayer.opponent,
+                    grid = result.updatedGrid,
+                ),
+            )
+        }
     }
 
-    fun getCell(row: Int, column: Int): Player? {
-        TODO()
+    fun getPlayerAtCell(row: Int, column: Int): Player? {
+        return grid.getCell(row, column).player
     }
 
     sealed class TicTacToe3x3Result {
@@ -34,7 +52,7 @@ data class TicTacToe3x3(
 
         enum class TicTacToe3x3Error {
             OCCUPIED_CELL,
-            OUT_OF_BOUNDS
+            OUT_OF_BOUNDS,
         }
     }
 
