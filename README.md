@@ -24,18 +24,17 @@ git clone https://github.com/2024-DEV2-020/tic-tac-toe-kata.git
 ```bash
 ./gradlew build
 ```
+4. Connect a physical Android device or start an emulator
+   
+5. Run the app via the UI green play button or CLI:
+```bash
+./gradlew installDebug
+```
 
 ## Running the Tests
 All JUnit tests are in [TODO]
 ```bash
 ./gradlew test
-```
-
-## Running the App
-1. Connect a physical Android device or start an emulator
-2. Run the app via the UI green play button or CLI:
-```bash
-./gradlew installDebug
 ```
 
 ## Development Approach
