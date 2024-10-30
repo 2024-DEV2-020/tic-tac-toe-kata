@@ -12,7 +12,7 @@ Anonymized Tic Tac Toe [Kata](https://github.com/stephane-genicot/katas/blob/mas
 - Build System: **Gradle**
 - Code Quality: **Ktlint**
 
-## Running the app
+## Building the project
 1. Clone the repository:
 ```bash
 git clone https://github.com/2024-DEV2-020/tic-tac-toe-kata.git
@@ -20,22 +20,22 @@ git clone https://github.com/2024-DEV2-020/tic-tac-toe-kata.git
 
 2. Open the project in Android Studio
 
-3. Build the project via the UI or CLI:
+3. Build the project via the UI or CLI (if it's not done automatically):
 ```bash
 ./gradlew build
+```
+
+## Running the App
+1. Connect a physical Android device or start an emulator (Android 7.0 up to Android 15)
+2. Run the app via the UI green play button or via the CLI:
+```bash
+./gradlew installDebug
 ```
 
 ## Running the Tests
 All JUnit tests are in [TODO]
 ```bash
 ./gradlew test
-```
-
-## Running the App
-1. Connect a physical Android device or start an emulator (Android 7.0 up to Android 15)
-2. Run the app via the UI green play button or CLI:
-```bash
-./gradlew installDebug
 ```
 
 ## Development Approach
