@@ -4,8 +4,13 @@ data class TicTacToe3x3(
     val currentPlayer: Player = Player.X,
     private val grid: Grid3x3 = Grid3x3(),
 ) {
-
-    val state: TicTacToe3x3State = TicTacToe3x3State.InProgress // TODO: complete
+    val state: TicTacToe3x3State =
+        when {
+            grid.winner != null -> TicTacToe3x3State.Victory(grid.winner!!)
+            grid.isInProgress -> TicTacToe3x3State.InProgress
+            grid.isDraw -> TicTacToe3x3State.Draw
+            else -> throw IllegalStateException("Invalid game state")
+        }
 
     /**
      * Marks a cell in the Tic-Tac-Toe grid with the current player's symbol.
@@ -26,6 +31,9 @@ data class TicTacToe3x3(
 
                         Grid3x3.Grid3x3Result.Grid3x3Error.OUT_OF_BOUNDS ->
                             TicTacToe3x3Result.TicTacToe3x3Error.OUT_OF_BOUNDS
+
+                        Grid3x3.Grid3x3Result.Grid3x3Error.GAME_OVER ->
+                            TicTacToe3x3Result.TicTacToe3x3Error.GAME_OVER
                     },
                 )
             }
@@ -33,7 +41,11 @@ data class TicTacToe3x3(
             is Grid3x3.Grid3x3Result.Success -> TicTacToe3x3Result.Success(
                 actionPerformer = currentPlayer,
                 updatedTicTacToe = this.copy(
-                    currentPlayer = currentPlayer.opponent,
+                    currentPlayer = if (result.updatedGrid.isInProgress) {
+                        currentPlayer.opponent
+                    } else {
+                        currentPlayer
+                    },
                     grid = result.updatedGrid,
                 ),
             )
@@ -53,6 +65,7 @@ data class TicTacToe3x3(
         enum class TicTacToe3x3Error {
             OCCUPIED_CELL,
             OUT_OF_BOUNDS,
+            GAME_OVER,
         }
     }
 

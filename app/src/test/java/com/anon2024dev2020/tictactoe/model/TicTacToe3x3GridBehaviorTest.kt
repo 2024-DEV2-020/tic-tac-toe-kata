@@ -192,7 +192,7 @@ class TicTacToe3x3GridBehaviorTest {
         }
         assertTrue(
             "Game should be in Draw state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Draw
+            game.state is TicTacToe3x3.TicTacToe3x3State.Draw,
         )
         // X plays, try mark cell on draw game
         val result = game.markCell(0, 0)
@@ -204,7 +204,7 @@ class TicTacToe3x3GridBehaviorTest {
         assertEquals(
             "Cell content should not change after attempting to mark a cell in a drawn game",
             Player.O,
-            game.getPlayerAtCell(0, 0)
+            game.getPlayerAtCell(0, 0),
         )
     }
 
@@ -224,7 +224,7 @@ class TicTacToe3x3GridBehaviorTest {
         }
         assertTrue(
             "Game should be in Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory
+            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
         )
 
         // try mark cell on won game
@@ -236,12 +236,12 @@ class TicTacToe3x3GridBehaviorTest {
         // Verify that the cell content hasn't changed
         assertNull(
             "Cell content should not change after attempting to mark a cell in a won game",
-            game.getPlayerAtCell(2, 0)
+            game.getPlayerAtCell(2, 0),
         )
         // Verify that the game state is still Victory
         assertTrue(
             "Game should still be in Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory
+            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
         )
     }
 }
