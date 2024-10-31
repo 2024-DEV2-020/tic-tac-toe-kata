@@ -113,4 +113,135 @@ class TicTacToe3x3GridBehaviorTest {
             }
         }
     }
+
+    @Test
+    fun `markCell should return GAME_OVER error when game is already won`() {
+        // | X | X | X |
+        // |---|---|---|
+        // | O |   |   |
+        // |---|---|---|
+        // |   |   | O |
+        getMovesFor(GameOverCondition.HORIZONTAL_TOP, GameScenario.X_WINS).forEach {
+            game = markCellAndAssertSuccess(
+                game = game,
+                row = it.first,
+                column = it.second,
+            ).updatedTicTacToe
+        }
+        assertTrue(
+            "Game should return Victory state",
+            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+        )
+        // try mark cell on won game
+        val result = game.markCell(2, 0)
+        assertTrue(
+            "Expected result to be a Failure",
+            result is TicTacToe3x3.TicTacToe3x3Result.Failure,
+        )
+        assertEquals(
+            "Expected failure reason to be GAME_OVER",
+            TicTacToe3x3.TicTacToe3x3Result.TicTacToe3x3Error.GAME_OVER,
+            (result as TicTacToe3x3.TicTacToe3x3Result.Failure).reason,
+        )
+    }
+
+    @Test
+    fun `markCell should return GAME_OVER error when game is already draw`() {
+//        | O | X | O |
+//        |---|---|---|
+//        | O | X | X |
+//        |---|---|---|
+//        | X | O | X |
+        getMovesFor(GameOverCondition.DRAW, GameScenario.DRAW_1).forEach {
+            game = markCellAndAssertSuccess(
+                game = game,
+                row = it.first,
+                column = it.second,
+            ).updatedTicTacToe
+        }
+        assertTrue(
+            "Game should be in Draw state",
+            game.state is TicTacToe3x3.TicTacToe3x3State.Draw,
+        )
+        // try mark cell on draw game
+        val result = game.markCell(0, 0)
+        assertTrue(
+            "Expected result to be a Failure",
+            result is TicTacToe3x3.TicTacToe3x3Result.Failure,
+        )
+        assertEquals(
+            "Expected failure reason to be GAME_OVER",
+            TicTacToe3x3.TicTacToe3x3Result.TicTacToe3x3Error.GAME_OVER,
+            (result as TicTacToe3x3.TicTacToe3x3Result.Failure).reason,
+        )
+    }
+
+    @Test
+    fun `markCell should not change game state when game is already draw`() {
+//        | O | X | O |
+//        |---|---|---|
+//        | O | X | X |
+//        |---|---|---|
+//        | X | O | X |
+        getMovesFor(GameOverCondition.DRAW, GameScenario.DRAW_1).forEach {
+            game = markCellAndAssertSuccess(
+                game = game,
+                row = it.first,
+                column = it.second,
+            ).updatedTicTacToe
+        }
+        assertTrue(
+            "Game should be in Draw state",
+            game.state is TicTacToe3x3.TicTacToe3x3State.Draw
+        )
+        // X plays, try mark cell on draw game
+        val result = game.markCell(0, 0)
+        assertTrue(
+            "Expected result to be a Failure",
+            result is TicTacToe3x3.TicTacToe3x3Result.Failure,
+        )
+        // Verify that the cell content hasn't changed
+        assertEquals(
+            "Cell content should not change after attempting to mark a cell in a drawn game",
+            Player.O,
+            game.getPlayerAtCell(0, 0)
+        )
+    }
+
+    @Test
+    fun `markCell should not change game state when game is already won`() {
+        // | X | X | X |
+        // |---|---|---|
+        // | O |   |   |
+        // |---|---|---|
+        // |   |   | O |
+        getMovesFor(GameOverCondition.HORIZONTAL_TOP, GameScenario.X_WINS).forEach {
+            game = markCellAndAssertSuccess(
+                game = game,
+                row = it.first,
+                column = it.second,
+            ).updatedTicTacToe
+        }
+        assertTrue(
+            "Game should be in Victory state",
+            game.state is TicTacToe3x3.TicTacToe3x3State.Victory
+        )
+
+        // try mark cell on won game
+        val result = game.markCell(2, 0)
+        assertTrue(
+            "Expected result to be a Failure",
+            result is TicTacToe3x3.TicTacToe3x3Result.Failure,
+        )
+        // Verify that the cell content hasn't changed
+        assertNull(
+            "Cell content should not change after attempting to mark a cell in a won game",
+            game.getPlayerAtCell(2, 0)
+        )
+        // Verify that the game state is still Victory
+        assertTrue(
+            "Game should still be in Victory state",
+            game.state is TicTacToe3x3.TicTacToe3x3State.Victory
+        )
+    }
 }
