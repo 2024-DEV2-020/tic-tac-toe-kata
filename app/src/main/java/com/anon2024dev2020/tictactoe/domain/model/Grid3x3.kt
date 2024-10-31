@@ -1,7 +1,15 @@
 package com.anon2024dev2020.tictactoe.domain.model
 
+/**
+ * Represents a 3x3 grid for a Tic-Tac-Toe game.
+ *
+ * This class is stateless and immutable. Each operation that would modify the grid
+ * returns a new instance of [Grid3x3] instead of modifying the existing one.
+ *
+ * @property grid3x3 A 3x3 list of lists representing the game grid.
+ */
 data class Grid3x3(
-    private val grid3x3: List<List<Cell>> = List(ROWS) { List(COLUMNS) { Cell() } },
+    private val grid3x3: List<List<Grid3x3Cell>> = List(ROWS) { List(COLUMNS) { Grid3x3Cell() } },
 ) {
     val winner: Player?
         get() {
@@ -75,32 +83,32 @@ data class Grid3x3(
     val isInProgress: Boolean
         get() = winner == null && !isDraw
 
-    fun getCell(row: Int, column: Int): Cell {
+    fun getCell(row: Int, column: Int): Grid3x3Cell {
         require(row in 0 until ROWS && column in 0 until COLUMNS) {
             "Invalid cell coordinates: row=$row, column=$column"
         }
         return grid3x3[row][column]
     }
 
-    fun markCell(player: Player, row: Int, column: Int): Grid3x3Result {
+    fun markCell(player: Player, row: Int, column: Int): Grid3x3MarkResult {
         if (!isInProgress) {
-            return Grid3x3Result.Failure(Grid3x3Result.Grid3x3Error.GAME_OVER)
+            return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3Error.GAME_OVER)
         }
 
         if (row < 0 || row >= ROWS || column < 0 || column >= COLUMNS) {
-            return Grid3x3Result.Failure(Grid3x3Result.Grid3x3Error.OUT_OF_BOUNDS)
+            return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3Error.OUT_OF_BOUNDS)
         }
 
         if (getCell(row, column).player != null) {
-            return Grid3x3Result.Failure(Grid3x3Result.Grid3x3Error.OCCUPIED_CELL)
+            return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3Error.OCCUPIED_CELL)
         }
 
-        return Grid3x3Result.Success(
+        return Grid3x3MarkResult.Success(
             updatedGrid = this.copy(
                 grid3x3 = grid3x3.mapIndexed { rowIndex, existingRowList ->
                     if (rowIndex == row) {
                         existingRowList.mapIndexed { colIndex, existingCell ->
-                            if (colIndex == column) Cell(player) else existingCell
+                            if (colIndex == column) Grid3x3Cell(player) else existingCell
                         }
                     } else {
                         existingRowList
@@ -108,17 +116,6 @@ data class Grid3x3(
                 },
             ),
         )
-    }
-
-    sealed class Grid3x3Result {
-        data class Success(val updatedGrid: Grid3x3) : Grid3x3Result()
-        data class Failure(val reason: Grid3x3Error) : Grid3x3Result()
-
-        enum class Grid3x3Error {
-            OCCUPIED_CELL,
-            OUT_OF_BOUNDS,
-            GAME_OVER,
-        }
     }
 
     companion object {

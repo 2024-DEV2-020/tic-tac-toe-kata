@@ -1,3 +1,3 @@
 package com.anon2024dev2020.tictactoe.domain.model
 
-class Cell(val player: Player? = null)
+data class Grid3x3Cell(val player: Player? = null)

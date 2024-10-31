@@ -2,6 +2,7 @@ package com.anon2024dev2020.tictactoe.model
 
 import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
+import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3State
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -31,12 +32,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be X",
             Player.X,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -56,12 +57,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be O",
             Player.O,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -81,12 +82,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be X",
             Player.X,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -106,12 +107,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be O",
             Player.O,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -131,12 +132,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be X",
             Player.X,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -156,12 +157,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be O",
             Player.O,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -181,12 +182,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be X",
             Player.X,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -206,12 +207,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be O",
             Player.O,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -231,12 +232,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be X",
             Player.X,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -256,12 +257,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be O",
             Player.O,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -281,12 +282,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be X",
             Player.X,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -306,12 +307,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be O",
             Player.O,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -334,12 +335,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be X",
             Player.X,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -362,12 +363,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be O",
             Player.O,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -390,12 +391,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be X",
             Player.X,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -418,12 +419,12 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be O",
             Player.O,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
     }
 
@@ -449,7 +450,7 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should be in progress",
-            game.state is TicTacToe3x3.TicTacToe3x3State.InProgress,
+            game.state is TicTacToe3x3State.InProgress,
         )
     }
 
@@ -474,7 +475,7 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should be in progress",
-            game.state is TicTacToe3x3.TicTacToe3x3State.InProgress,
+            game.state is TicTacToe3x3State.InProgress,
         )
     }
 
@@ -500,7 +501,7 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should be in progress",
-            game.state is TicTacToe3x3.TicTacToe3x3State.InProgress,
+            game.state is TicTacToe3x3State.InProgress,
         )
     }
 
@@ -525,7 +526,7 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should be in progress",
-            game.state is TicTacToe3x3.TicTacToe3x3State.InProgress,
+            game.state is TicTacToe3x3State.InProgress,
         )
     }
 
@@ -545,7 +546,7 @@ class TicTacToe3x3GameOverConditionsTest {
         }
         assertTrue(
             "Game should be in Draw state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Draw,
+            game.state is TicTacToe3x3State.Draw,
         )
     }
 }

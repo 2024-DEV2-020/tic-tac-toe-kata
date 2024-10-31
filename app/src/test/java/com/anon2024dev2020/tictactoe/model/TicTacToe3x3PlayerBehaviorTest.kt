@@ -2,6 +2,7 @@ package com.anon2024dev2020.tictactoe.model
 
 import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
+import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3State
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -58,7 +59,7 @@ class TicTacToe3x3PlayerBehaviorTest {
 
     @Test
     fun `currentPlayer should return the current player when game is in progress`() {
-        assertEquals(TicTacToe3x3.TicTacToe3x3State.InProgress, game.state)
+        assertEquals(TicTacToe3x3State.InProgress, game.state)
         assertEquals(Player.X, game.currentPlayer)
     }
 
@@ -81,12 +82,12 @@ class TicTacToe3x3PlayerBehaviorTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         assertEquals(
             "Winner should be O",
             Player.O,
-            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+            (game.state as TicTacToe3x3State.Victory).winner,
         )
         assertEquals(
             "Current player should be O",
@@ -111,7 +112,7 @@ class TicTacToe3x3PlayerBehaviorTest {
         }
         assertTrue(
             "Game should be in Draw state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Draw,
+            game.state is TicTacToe3x3State.Draw,
         )
         assertEquals(
             "Current player should be X",

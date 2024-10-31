@@ -2,6 +2,7 @@ package com.anon2024dev2020.tictactoe.model
 
 import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
+import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3MarkResult
 import org.junit.Assert.assertTrue
 
 enum class GameOverCondition {
@@ -265,10 +266,10 @@ internal fun markCellAndAssertSuccess(
     game: TicTacToe3x3,
     row: Int,
     column: Int,
-): TicTacToe3x3.TicTacToe3x3Result.Success {
+): TicTacToe3x3MarkResult.Success {
     val result = game.markCell(row, column)
-    assertTrue("Expected successful move", result is TicTacToe3x3.TicTacToe3x3Result.Success)
-    return result as TicTacToe3x3.TicTacToe3x3Result.Success
+    assertTrue("Expected successful move", result is TicTacToe3x3MarkResult.Success)
+    return result as TicTacToe3x3MarkResult.Success
 }
 
 /**

@@ -2,6 +2,8 @@ package com.anon2024dev2020.tictactoe.model
 
 import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
+import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3MarkResult
+import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3State
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertThrows
@@ -61,12 +63,12 @@ class TicTacToe3x3GridBehaviorTest {
         val result = game.markCell(0, 0)
         assertTrue(
             "Expected result to be a Failure",
-            result is TicTacToe3x3.TicTacToe3x3Result.Failure,
+            result is TicTacToe3x3MarkResult.Failure,
         )
         assertEquals(
             "Expected failure reason to be OCCUPIED_CELL",
-            TicTacToe3x3.TicTacToe3x3Result.TicTacToe3x3Error.OCCUPIED_CELL,
-            (result as TicTacToe3x3.TicTacToe3x3Result.Failure).reason,
+            TicTacToe3x3MarkResult.TicTacToe3x3Error.OCCUPIED_CELL,
+            (result as TicTacToe3x3MarkResult.Failure).reason,
         )
     }
 
@@ -75,12 +77,12 @@ class TicTacToe3x3GridBehaviorTest {
         val result = game.markCell(3, 0)
         assertTrue(
             "Expected result to be a Failure",
-            result is TicTacToe3x3.TicTacToe3x3Result.Failure,
+            result is TicTacToe3x3MarkResult.Failure,
         )
         assertEquals(
             "Expected failure reason to be OUT_OF_BOUNDS",
-            TicTacToe3x3.TicTacToe3x3Result.TicTacToe3x3Error.OUT_OF_BOUNDS,
-            (result as TicTacToe3x3.TicTacToe3x3Result.Failure).reason,
+            TicTacToe3x3MarkResult.TicTacToe3x3Error.OUT_OF_BOUNDS,
+            (result as TicTacToe3x3MarkResult.Failure).reason,
         )
     }
 
@@ -89,12 +91,12 @@ class TicTacToe3x3GridBehaviorTest {
         val result = game.markCell(-1, 0)
         assertTrue(
             "Expected result to be a Failure",
-            result is TicTacToe3x3.TicTacToe3x3Result.Failure,
+            result is TicTacToe3x3MarkResult.Failure,
         )
         assertEquals(
             "Expected failure reason to be OUT_OF_BOUNDS",
-            TicTacToe3x3.TicTacToe3x3Result.TicTacToe3x3Error.OUT_OF_BOUNDS,
-            (result as TicTacToe3x3.TicTacToe3x3Result.Failure).reason,
+            TicTacToe3x3MarkResult.TicTacToe3x3Error.OUT_OF_BOUNDS,
+            (result as TicTacToe3x3MarkResult.Failure).reason,
         )
     }
 
@@ -130,18 +132,18 @@ class TicTacToe3x3GridBehaviorTest {
         }
         assertTrue(
             "Game should return Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
         // try mark cell on won game
         val result = game.markCell(2, 0)
         assertTrue(
             "Expected result to be a Failure",
-            result is TicTacToe3x3.TicTacToe3x3Result.Failure,
+            result is TicTacToe3x3MarkResult.Failure,
         )
         assertEquals(
             "Expected failure reason to be GAME_OVER",
-            TicTacToe3x3.TicTacToe3x3Result.TicTacToe3x3Error.GAME_OVER,
-            (result as TicTacToe3x3.TicTacToe3x3Result.Failure).reason,
+            TicTacToe3x3MarkResult.TicTacToe3x3Error.GAME_OVER,
+            (result as TicTacToe3x3MarkResult.Failure).reason,
         )
     }
 
@@ -161,18 +163,18 @@ class TicTacToe3x3GridBehaviorTest {
         }
         assertTrue(
             "Game should be in Draw state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Draw,
+            game.state is TicTacToe3x3State.Draw,
         )
         // try mark cell on draw game
         val result = game.markCell(0, 0)
         assertTrue(
             "Expected result to be a Failure",
-            result is TicTacToe3x3.TicTacToe3x3Result.Failure,
+            result is TicTacToe3x3MarkResult.Failure,
         )
         assertEquals(
             "Expected failure reason to be GAME_OVER",
-            TicTacToe3x3.TicTacToe3x3Result.TicTacToe3x3Error.GAME_OVER,
-            (result as TicTacToe3x3.TicTacToe3x3Result.Failure).reason,
+            TicTacToe3x3MarkResult.TicTacToe3x3Error.GAME_OVER,
+            (result as TicTacToe3x3MarkResult.Failure).reason,
         )
     }
 
@@ -192,13 +194,13 @@ class TicTacToe3x3GridBehaviorTest {
         }
         assertTrue(
             "Game should be in Draw state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Draw,
+            game.state is TicTacToe3x3State.Draw,
         )
         // X plays, try mark cell on draw game
         val result = game.markCell(0, 0)
         assertTrue(
             "Expected result to be a Failure",
-            result is TicTacToe3x3.TicTacToe3x3Result.Failure,
+            result is TicTacToe3x3MarkResult.Failure,
         )
         // Verify that the cell content hasn't changed
         assertEquals(
@@ -224,14 +226,14 @@ class TicTacToe3x3GridBehaviorTest {
         }
         assertTrue(
             "Game should be in Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
 
         // try mark cell on won game
         val result = game.markCell(2, 0)
         assertTrue(
             "Expected result to be a Failure",
-            result is TicTacToe3x3.TicTacToe3x3Result.Failure,
+            result is TicTacToe3x3MarkResult.Failure,
         )
         // Verify that the cell content hasn't changed
         assertNull(
@@ -241,7 +243,7 @@ class TicTacToe3x3GridBehaviorTest {
         // Verify that the game state is still Victory
         assertTrue(
             "Game should still be in Victory state",
-            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+            game.state is TicTacToe3x3State.Victory,
         )
     }
 }
