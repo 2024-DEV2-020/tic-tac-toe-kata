@@ -3,6 +3,7 @@ package com.anon2024dev2020.tictactoe.model
 import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -41,8 +42,10 @@ class TicTacToe3x3PlayerBehaviorTest {
             Player.O, Player.X, Player.O,
             Player.X, Player.O, Player.X,
         )
-
-        movesForDrawWhenXStarts.forEachIndexed { index, (row, column) ->
+        getMovesFor(
+            GameOverCondition.DRAW,
+            GameScenario.DRAW_1,
+        ).forEachIndexed { index, (row, column) ->
             val result = markCellAndAssertSuccess(game, row, column)
             game = result.updatedTicTacToe
             assertEquals(
@@ -60,12 +63,60 @@ class TicTacToe3x3PlayerBehaviorTest {
     }
 
     @Test
-    fun `currentPlayer should return the last player when game is won`() {
-        TODO("complete when a simulated victory is created")
+    fun `currentPlayer should return last player that moved when game is won`() {
+//        | O | X |   |
+//        |---|---|---|
+//        | O |   | X |
+//        |---|---|---|
+//        | O | X |   |
+        getMovesFor(
+            condition = GameOverCondition.VERTICAL_LEFT,
+            key = GameScenario.O_WINS,
+        ).forEach {
+            game = markCellAndAssertSuccess(
+                game = game,
+                row = it.first,
+                column = it.second,
+            ).updatedTicTacToe
+        }
+        assertTrue(
+            "Game should return Victory state",
+            game.state is TicTacToe3x3.TicTacToe3x3State.Victory,
+        )
+        assertEquals(
+            "Winner should be O",
+            Player.O,
+            (game.state as TicTacToe3x3.TicTacToe3x3State.Victory).winner,
+        )
+        assertEquals(
+            "Current player should be O",
+            Player.O,
+            game.currentPlayer,
+        )
     }
 
     @Test
-    fun `currentPlayer should return the last player when game is a draw`() {
-        TODO("complete when a simulated draw is created")
+    fun `currentPlayer should return last player that moved when game is draw`() {
+//        | O | X | O |
+//        |---|---|---|
+//        | O | X | X |
+//        |---|---|---|
+//        | X | O | X |
+        getMovesFor(GameOverCondition.DRAW, GameScenario.DRAW_1).forEach {
+            game = markCellAndAssertSuccess(
+                game = game,
+                row = it.first,
+                column = it.second,
+            ).updatedTicTacToe
+        }
+        assertTrue(
+            "Game should be in Draw state",
+            game.state is TicTacToe3x3.TicTacToe3x3State.Draw,
+        )
+        assertEquals(
+            "Current player should be X",
+            Player.X,
+            game.currentPlayer,
+        )
     }
 }
