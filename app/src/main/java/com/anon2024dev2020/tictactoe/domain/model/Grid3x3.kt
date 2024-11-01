@@ -11,6 +11,12 @@ package com.anon2024dev2020.tictactoe.domain.model
 data class Grid3x3(
     private val grid3x3: List<List<Grid3x3Cell>> = List(ROWS) { List(COLUMNS) { Grid3x3Cell() } },
 ) {
+    init {
+        require(grid3x3.size == ROWS && grid3x3.all { it.size == COLUMNS }) {
+            "Grid must be exactly 3x3"
+        }
+    }
+
     val winner: Player?
         get() {
 //        HORIZONTAL_TOP
@@ -83,32 +89,41 @@ data class Grid3x3(
     val isInProgress: Boolean
         get() = winner == null && !isDraw
 
-    fun getCell(row: Int, column: Int): Grid3x3Cell {
-        require(row in 0 until ROWS && column in 0 until COLUMNS) {
-            "Invalid cell coordinates: row=$row, column=$column"
+    fun getCell(coordinate: Coordinate): Grid3x3Cell {
+        require(coordinate.x in 0 until ROWS && coordinate.y in 0 until COLUMNS) {
+            "Invalid cell coordinates: x=${coordinate.x}, y=${coordinate.y}"
         }
-        return grid3x3[row][column]
+        return grid3x3[coordinate.x][coordinate.y]
     }
 
-    fun markCell(player: Player, row: Int, column: Int): Grid3x3MarkResult {
+    /**
+     * Marks a cell in the 3x3 grid with the specified player's symbol.
+     *
+     * @param player The [Player] making the move.
+     * @param coordinate The [Coordinate] of the cell to mark.
+     * @return A [Grid3x3MarkResult] indicating the success or failure of the operation.
+     *         If successful, it contains a new [Grid3x3] instance with the updated state.
+     *         If unsuccessful, it contains an error indicating the reason for failure.
+     */
+    fun markCell(player: Player, coordinate: Coordinate): Grid3x3MarkResult {
         if (!isInProgress) {
             return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3Error.GAME_OVER)
         }
 
-        if (row < 0 || row >= ROWS || column < 0 || column >= COLUMNS) {
+        if (coordinate.x !in 0 until ROWS || coordinate.y !in 0 until COLUMNS) {
             return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3Error.OUT_OF_BOUNDS)
         }
 
-        if (getCell(row, column).player != null) {
+        if (getCell(coordinate).player != null) {
             return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3Error.OCCUPIED_CELL)
         }
 
         return Grid3x3MarkResult.Success(
             updatedGrid = this.copy(
                 grid3x3 = grid3x3.mapIndexed { rowIndex, existingRowList ->
-                    if (rowIndex == row) {
+                    if (rowIndex == coordinate.x) {
                         existingRowList.mapIndexed { colIndex, existingCell ->
-                            if (colIndex == column) Grid3x3Cell(player) else existingCell
+                            if (colIndex == coordinate.y) Grid3x3Cell(player) else existingCell
                         }
                     } else {
                         existingRowList

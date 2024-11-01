@@ -1,5 +1,6 @@
 package com.anon2024dev2020.tictactoe.model
 
+import com.anon2024dev2020.tictactoe.domain.model.Coordinate
 import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3State
@@ -24,15 +25,15 @@ class TicTacToe3x3PlayerBehaviorTest {
     // Kept for clarity and quick diagnosis of basic turn functionality (redundant)
     @Test
     fun `it should be player O's turn after player X`() {
-        game = markCellAndAssertSuccess(game, 0, 0).updatedTicTacToe
+        game = markCellAndAssertSuccess(game, Coordinate.of(0, 0)).updatedTicTacToe
         assertEquals(Player.O, game.currentPlayer)
     }
 
     // Kept for clarity and quick diagnosis of basic turn functionality (redundant)
     @Test
     fun `it should be player X's turn after player O`() {
-        game = markCellAndAssertSuccess(game, 0, 0).updatedTicTacToe // X plays
-        game = markCellAndAssertSuccess(game, 1, 0).updatedTicTacToe // O plays
+        game = markCellAndAssertSuccess(game, Coordinate.of(0, 0)).updatedTicTacToe // X plays
+        game = markCellAndAssertSuccess(game, Coordinate.of(1, 0)).updatedTicTacToe // O plays
         assertEquals(Player.X, game.currentPlayer)
     }
 
@@ -46,8 +47,8 @@ class TicTacToe3x3PlayerBehaviorTest {
         getMovesFor(
             GameOverCondition.DRAW,
             GameScenario.DRAW_1,
-        ).forEachIndexed { index, (row, column) ->
-            val result = markCellAndAssertSuccess(game, row, column)
+        ).forEachIndexed { index, coordinate ->
+            val result = markCellAndAssertSuccess(game, coordinate)
             game = result.updatedTicTacToe
             assertEquals(
                 "Move $index should be performed by ${expectedPlayerOrder[index]}",
@@ -76,8 +77,7 @@ class TicTacToe3x3PlayerBehaviorTest {
         ).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -106,8 +106,7 @@ class TicTacToe3x3PlayerBehaviorTest {
         getMovesFor(GameOverCondition.DRAW, GameScenario.DRAW_1).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(

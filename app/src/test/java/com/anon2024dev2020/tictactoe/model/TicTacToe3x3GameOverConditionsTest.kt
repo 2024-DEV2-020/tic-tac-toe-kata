@@ -1,5 +1,6 @@
 package com.anon2024dev2020.tictactoe.model
 
+import com.anon2024dev2020.tictactoe.domain.model.Coordinate
 import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3State
@@ -26,8 +27,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.HORIZONTAL_TOP, GameScenario.X_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -51,8 +51,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.HORIZONTAL_TOP, GameScenario.O_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -76,8 +75,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.HORIZONTAL_TOP, GameScenario.X_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -101,8 +99,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.HORIZONTAL_TOP, GameScenario.O_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -126,8 +123,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.HORIZONTAL_TOP, GameScenario.X_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -151,8 +147,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.HORIZONTAL_TOP, GameScenario.O_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -176,8 +171,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.VERTICAL_LEFT, GameScenario.X_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -201,8 +195,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.VERTICAL_LEFT, GameScenario.O_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -226,8 +219,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.VERTICAL_MIDDLE, GameScenario.X_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -251,8 +243,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.VERTICAL_MIDDLE, GameScenario.O_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -276,8 +267,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.VERTICAL_RIGHT, GameScenario.X_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -301,8 +291,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.VERTICAL_RIGHT, GameScenario.O_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -329,8 +318,7 @@ class TicTacToe3x3GameOverConditionsTest {
         ).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -357,8 +345,7 @@ class TicTacToe3x3GameOverConditionsTest {
         ).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -385,8 +372,7 @@ class TicTacToe3x3GameOverConditionsTest {
         ).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -413,8 +399,7 @@ class TicTacToe3x3GameOverConditionsTest {
         ).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -436,16 +421,16 @@ class TicTacToe3x3GameOverConditionsTest {
         // ---|---|---|
         //   |   |   |
         val moves = listOf(
-            Pair(0, 0),
-            Pair(1, 0),
-            Pair(0, 1),
-            Pair(1, 1),
+            Coordinate.of(0, 0),
+            Coordinate.of(1, 0),
+            Coordinate.of(0, 1),
+            Coordinate.of(1, 1),
+
         )
         moves.forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -462,15 +447,14 @@ class TicTacToe3x3GameOverConditionsTest {
         // ---|---|---|
         //   |   |   |
         val moves = listOf(
-            Pair(0, 0),
-            Pair(0, 1),
-            Pair(1, 1),
+            Coordinate.of(0, 0),
+            Coordinate.of(0, 1),
+            Coordinate.of(1, 1),
         )
         moves.forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -487,16 +471,15 @@ class TicTacToe3x3GameOverConditionsTest {
         // ---|---|---|
         //   |   | O |
         val moves = listOf(
-            Pair(0, 0),
-            Pair(0, 1),
-            Pair(1, 0),
-            Pair(2, 2),
+            Coordinate.of(0, 0),
+            Coordinate.of(0, 1),
+            Coordinate.of(1, 0),
+            Coordinate.of(2, 2),
         )
         moves.forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -513,15 +496,14 @@ class TicTacToe3x3GameOverConditionsTest {
         // ---|---|---|
         //   |   |   |
         val moves = listOf(
-            Pair(0, 0),
-            Pair(0, 1),
-            Pair(0, 2),
+            Coordinate.of(0, 0),
+            Coordinate.of(0, 1),
+            Coordinate.of(0, 2),
         )
         moves.forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -540,8 +522,7 @@ class TicTacToe3x3GameOverConditionsTest {
         getMovesFor(GameOverCondition.DRAW, GameScenario.DRAW_1).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(

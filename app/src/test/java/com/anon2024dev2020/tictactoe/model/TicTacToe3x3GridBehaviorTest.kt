@@ -1,5 +1,6 @@
 package com.anon2024dev2020.tictactoe.model
 
+import com.anon2024dev2020.tictactoe.domain.model.Coordinate
 import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3MarkResult
@@ -23,20 +24,20 @@ class TicTacToe3x3GridBehaviorTest {
     fun `new grid should be empty`() {
         for (row in 0..2) {
             for (col in 0..2) {
-                assertNull(game.getPlayerAtCell(row, col))
+                assertNull(game.getPlayerAt(Coordinate.of(row, col)))
             }
         }
     }
 
     @Test
     fun `markCell should succeed and place X in empty cell`() {
-        game = markCellAndAssertSuccess(game = game, row = 0, column = 0).updatedTicTacToe
+        game =
+            markCellAndAssertSuccess(game = game, coordinate = Coordinate.of(0, 0)).updatedTicTacToe
         assertEquals(
             "Cell should contain X after placement",
             Player.X,
-            game.getPlayerAtCell(
-                0,
-                0,
+            game.getPlayerAt(
+                Coordinate.of(0, 0),
             ),
         )
     }
@@ -44,23 +45,23 @@ class TicTacToe3x3GridBehaviorTest {
     @Test
     fun `markCell should succeed and place O in empty cell`() {
         // X Plays
-        game = markCellAndAssertSuccess(game = game, row = 0, column = 0).updatedTicTacToe
+        game =
+            markCellAndAssertSuccess(game = game, coordinate = Coordinate.of(0, 0)).updatedTicTacToe
         // Y Plays
-        game = markCellAndAssertSuccess(game = game, row = 1, column = 0).updatedTicTacToe
+        game = markCellAndAssertSuccess(game = game, Coordinate.of(1, 0)).updatedTicTacToe
         assertEquals(
             "Cell should contain O after placement",
             Player.O,
-            game.getPlayerAtCell(
-                1,
-                0,
+            game.getPlayerAt(
+                Coordinate.of(1, 0),
             ),
         )
     }
 
     @Test
     fun `markCell should fail with OCCUPIED_CELL error when placing in non-empty cell`() {
-        game = markCellAndAssertSuccess(game, 0, 0).updatedTicTacToe
-        val result = game.markCell(0, 0)
+        game = markCellAndAssertSuccess(game, Coordinate.of(0, 0)).updatedTicTacToe
+        val result = game.markCell(Coordinate.of(0, 0))
         assertTrue(
             "Expected result to be a Failure",
             result is TicTacToe3x3MarkResult.Failure,
@@ -74,7 +75,7 @@ class TicTacToe3x3GridBehaviorTest {
 
     @Test
     fun `markCell should fail with OUT_OF_BOUNDS error when placing outside grid`() {
-        val result = game.markCell(3, 0)
+        val result = game.markCell(Coordinate.of(3, 0))
         assertTrue(
             "Expected result to be a Failure",
             result is TicTacToe3x3MarkResult.Failure,
@@ -88,7 +89,7 @@ class TicTacToe3x3GridBehaviorTest {
 
     @Test
     fun `markCell should gracefully fail with OUT_OF_BOUNDS error with negative indices`() {
-        val result = game.markCell(-1, 0)
+        val result = game.markCell(Coordinate.of(-1, 0))
         assertTrue(
             "Expected result to be a Failure",
             result is TicTacToe3x3MarkResult.Failure,
@@ -103,15 +104,15 @@ class TicTacToe3x3GridBehaviorTest {
     @Test
     fun `getPlayerAtCell should throw IllegalArgumentException for out of bounds coordinates`() {
         val outOfBoundsCoordinates = listOf(
-            Pair(-1, 0),
-            Pair(0, -1),
-            Pair(3, 0),
-            Pair(0, 3),
+            Coordinate.of(-1, 0),
+            Coordinate.of(0, -1),
+            Coordinate.of(3, 0),
+            Coordinate.of(0, 3),
         )
 
-        outOfBoundsCoordinates.forEach { (row, col) ->
+        outOfBoundsCoordinates.forEach { coordinate ->
             assertThrows(IllegalArgumentException::class.java) {
-                game.getPlayerAtCell(row, col)
+                game.getPlayerAt(coordinate)
             }
         }
     }
@@ -126,8 +127,7 @@ class TicTacToe3x3GridBehaviorTest {
         getMovesFor(GameOverCondition.HORIZONTAL_TOP, GameScenario.X_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -135,7 +135,7 @@ class TicTacToe3x3GridBehaviorTest {
             game.state is TicTacToe3x3State.Victory,
         )
         // try mark cell on won game
-        val result = game.markCell(2, 0)
+        val result = game.markCell(Coordinate.of(2, 0))
         assertTrue(
             "Expected result to be a Failure",
             result is TicTacToe3x3MarkResult.Failure,
@@ -157,8 +157,7 @@ class TicTacToe3x3GridBehaviorTest {
         getMovesFor(GameOverCondition.DRAW, GameScenario.DRAW_1).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -166,7 +165,7 @@ class TicTacToe3x3GridBehaviorTest {
             game.state is TicTacToe3x3State.Draw,
         )
         // try mark cell on draw game
-        val result = game.markCell(0, 0)
+        val result = game.markCell(Coordinate.of(0, 0))
         assertTrue(
             "Expected result to be a Failure",
             result is TicTacToe3x3MarkResult.Failure,
@@ -188,8 +187,7 @@ class TicTacToe3x3GridBehaviorTest {
         getMovesFor(GameOverCondition.DRAW, GameScenario.DRAW_1).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -197,7 +195,7 @@ class TicTacToe3x3GridBehaviorTest {
             game.state is TicTacToe3x3State.Draw,
         )
         // X plays, try mark cell on draw game
-        val result = game.markCell(0, 0)
+        val result = game.markCell(Coordinate.of(0, 0))
         assertTrue(
             "Expected result to be a Failure",
             result is TicTacToe3x3MarkResult.Failure,
@@ -206,7 +204,7 @@ class TicTacToe3x3GridBehaviorTest {
         assertEquals(
             "Cell content should not change after attempting to mark a cell in a drawn game",
             Player.O,
-            game.getPlayerAtCell(0, 0),
+            game.getPlayerAt(Coordinate.of(0, 0)),
         )
     }
 
@@ -220,8 +218,7 @@ class TicTacToe3x3GridBehaviorTest {
         getMovesFor(GameOverCondition.HORIZONTAL_TOP, GameScenario.X_WINS).forEach {
             game = markCellAndAssertSuccess(
                 game = game,
-                row = it.first,
-                column = it.second,
+                coordinate = it,
             ).updatedTicTacToe
         }
         assertTrue(
@@ -230,7 +227,7 @@ class TicTacToe3x3GridBehaviorTest {
         )
 
         // try mark cell on won game
-        val result = game.markCell(2, 0)
+        val result = game.markCell(Coordinate.of(2, 0))
         assertTrue(
             "Expected result to be a Failure",
             result is TicTacToe3x3MarkResult.Failure,
@@ -238,7 +235,7 @@ class TicTacToe3x3GridBehaviorTest {
         // Verify that the cell content hasn't changed
         assertNull(
             "Cell content should not change after attempting to mark a cell in a won game",
-            game.getPlayerAtCell(2, 0),
+            game.getPlayerAt(Coordinate.of(2, 0)),
         )
         // Verify that the game state is still Victory
         assertTrue(

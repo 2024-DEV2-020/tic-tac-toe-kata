@@ -1,5 +1,6 @@
 package com.anon2024dev2020.tictactoe.model
 
+import com.anon2024dev2020.tictactoe.domain.model.Coordinate
 import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3MarkResult
@@ -24,14 +25,20 @@ enum class GameScenario {
 }
 
 data class MoveSet(
-    val moves: Set<Pair<Int, Int>>,
+    val moves: Set<Coordinate>,
     val finalGameBoardState: String,
 )
 
 val gameMoves = mapOf(
     GameOverCondition.HORIZONTAL_TOP to mapOf(
         GameScenario.X_WINS to MoveSet(
-            moves = setOf(Pair(0, 1), Pair(1, 0), Pair(0, 0), Pair(2, 2), Pair(0, 2)),
+            moves = setOf(
+                Coordinate.of(0, 1),
+                Coordinate.of(1, 0),
+                Coordinate.of(0, 0),
+                Coordinate.of(2, 2),
+                Coordinate.of(0, 2),
+            ),
             finalGameBoardState = """
                 | X | X | X |
                 |---|---|---|
@@ -41,7 +48,14 @@ val gameMoves = mapOf(
             """.trimIndent(),
         ),
         GameScenario.O_WINS to MoveSet(
-            moves = setOf(Pair(1, 0), Pair(0, 1), Pair(2, 2), Pair(0, 0), Pair(2, 1), Pair(0, 2)),
+            moves = setOf(
+                Coordinate.of(1, 0),
+                Coordinate.of(0, 1),
+                Coordinate.of(2, 2),
+                Coordinate.of(0, 0),
+                Coordinate.of(2, 1),
+                Coordinate.of(0, 2),
+            ),
             finalGameBoardState = """
                 | O | O | O |
                 |---|---|---|
@@ -54,13 +68,14 @@ val gameMoves = mapOf(
     GameOverCondition.HORIZONTAL_MIDDLE to mapOf(
         GameScenario.X_WINS to MoveSet(
             moves = setOf(
-                Pair(0, 2),
-                Pair(0, 1),
-                Pair(1, 0),
-                Pair(2, 0),
-                Pair(1, 2),
-                Pair(2, 2),
-                Pair(1, 1),
+                Coordinate.of(0, 2),
+                Coordinate.of(0, 1),
+                Coordinate.of(1, 0),
+                Coordinate.of(2, 0),
+                Coordinate.of(1, 2),
+                Coordinate.of(2, 2),
+                Coordinate.of(1, 1),
+
             ),
             finalGameBoardState = """
                 |   | O | X |
@@ -71,7 +86,14 @@ val gameMoves = mapOf(
             """.trimIndent(),
         ),
         GameScenario.O_WINS to MoveSet(
-            moves = setOf(Pair(0, 1), Pair(1, 0), Pair(2, 0), Pair(1, 2), Pair(2, 2), Pair(1, 1)),
+            moves = setOf(
+                Coordinate.of(0, 1),
+                Coordinate.of(1, 0),
+                Coordinate.of(2, 0),
+                Coordinate.of(1, 2),
+                Coordinate.of(2, 2),
+                Coordinate.of(1, 1),
+            ),
             finalGameBoardState = """
                 |   | X |   |
                 |---|---|---|
@@ -84,13 +106,13 @@ val gameMoves = mapOf(
     GameOverCondition.HORIZONTAL_BOTTOM to mapOf(
         GameScenario.X_WINS to MoveSet(
             moves = setOf(
-                Pair(0, 2),
-                Pair(0, 1),
-                Pair(2, 0),
-                Pair(1, 0),
-                Pair(2, 2),
-                Pair(1, 2),
-                Pair(2, 1),
+                Coordinate.of(0, 2),
+                Coordinate.of(0, 1),
+                Coordinate.of(2, 0),
+                Coordinate.of(1, 0),
+                Coordinate.of(2, 2),
+                Coordinate.of(1, 2),
+                Coordinate.of(2, 1),
             ),
             finalGameBoardState = """
                 |   | O | X |
@@ -101,7 +123,15 @@ val gameMoves = mapOf(
             """.trimIndent(),
         ),
         GameScenario.O_WINS to MoveSet(
-            moves = setOf(Pair(0, 1), Pair(2, 0), Pair(1, 0), Pair(2, 2), Pair(1, 2), Pair(2, 1)),
+            moves = setOf(
+                Coordinate.of(0, 1),
+                Coordinate.of(2, 0),
+                Coordinate.of(1, 0),
+                Coordinate.of(2, 2),
+                Coordinate.of(1, 2),
+                Coordinate.of(2, 1),
+
+            ),
             finalGameBoardState = """
                 |   | X |   |
                 |---|---|---|
@@ -114,7 +144,14 @@ val gameMoves = mapOf(
     GameOverCondition.VERTICAL_LEFT to mapOf(
         GameScenario.X_WINS to MoveSet(
             moves = setOf(
-                Pair(0, 0), Pair(0, 1), Pair(0, 2), Pair(1, 2), Pair(1, 0), Pair(2, 1), Pair(2, 0),
+                Coordinate.of(0, 0),
+                Coordinate.of(0, 1),
+                Coordinate.of(0, 2),
+                Coordinate.of(1, 2),
+                Coordinate.of(1, 0),
+                Coordinate.of(2, 1),
+                Coordinate.of(2, 0),
+
             ),
             finalGameBoardState = """
                 | X1 | O2 | X3 |
@@ -125,7 +162,10 @@ val gameMoves = mapOf(
             """.trimIndent(),
         ),
         GameScenario.O_WINS to MoveSet(
-            moves = setOf(Pair(0, 1), Pair(0, 0), Pair(1, 2), Pair(1, 0), Pair(2, 1), Pair(2, 0)),
+            moves = setOf(
+                Coordinate.of(0, 1), Coordinate.of(0, 0), Coordinate.of(1, 2),
+                Coordinate.of(1, 0), Coordinate.of(2, 1), Coordinate.of(2, 0),
+            ),
             finalGameBoardState = """
                 | O | X |   |
                 |---|---|---|
@@ -138,7 +178,10 @@ val gameMoves = mapOf(
     GameOverCondition.VERTICAL_MIDDLE to mapOf(
         GameScenario.X_WINS to MoveSet(
             moves = setOf(
-                Pair(0, 1), Pair(0, 0), Pair(1, 1), Pair(1, 2), Pair(2, 2), Pair(2, 0), Pair(2, 1),
+                Coordinate.of(0, 1), Coordinate.of(0, 0), Coordinate.of(1, 1),
+                Coordinate.of(1, 2), Coordinate.of(2, 2), Coordinate.of(2, 0),
+                Coordinate.of(2, 1),
+
             ),
             finalGameBoardState = """
                 | O | X |   |
@@ -149,7 +192,15 @@ val gameMoves = mapOf(
             """.trimIndent(),
         ),
         GameScenario.O_WINS to MoveSet(
-            moves = setOf(Pair(0, 0), Pair(0, 1), Pair(1, 2), Pair(1, 1), Pair(2, 0), Pair(2, 1)),
+            moves = setOf(
+                Coordinate.of(0, 0),
+                Coordinate.of(0, 1),
+                Coordinate.of(1, 2),
+                Coordinate.of(1, 1),
+                Coordinate.of(2, 0),
+                Coordinate.of(2, 1),
+
+            ),
             finalGameBoardState = """
                 | X | O |   |
                 |---|---|---|
@@ -162,9 +213,11 @@ val gameMoves = mapOf(
     GameOverCondition.VERTICAL_RIGHT to mapOf(
         GameScenario.X_WINS to MoveSet(
             moves = setOf(
-                Pair(0, 2), Pair(0, 0), Pair(1, 2), Pair(1, 1), Pair(2, 1), Pair(2, 0),
-                Pair(2, 2),
+                Coordinate.of(0, 2), Coordinate.of(0, 0), Coordinate.of(1, 2),
+                Coordinate.of(1, 1), Coordinate.of(2, 1), Coordinate.of(2, 0),
+                Coordinate.of(2, 2),
             ),
+
             finalGameBoardState = """
                 | O |   | X |
                 |---|---|---|
@@ -174,7 +227,14 @@ val gameMoves = mapOf(
             """.trimIndent(),
         ),
         GameScenario.O_WINS to MoveSet(
-            moves = setOf(Pair(0, 0), Pair(0, 2), Pair(1, 1), Pair(1, 2), Pair(2, 0), Pair(2, 2)),
+            moves = setOf(
+                Coordinate.of(0, 0),
+                Coordinate.of(0, 2),
+                Coordinate.of(1, 1),
+                Coordinate.of(1, 2),
+                Coordinate.of(2, 0),
+                Coordinate.of(2, 2),
+            ),
             finalGameBoardState = """
                 | X |   | O |
                 |---|---|---|
@@ -186,7 +246,14 @@ val gameMoves = mapOf(
     ),
     GameOverCondition.DIAGONAL_TOP_LEFT_TO_BOTTOM_RIGHT to mapOf(
         GameScenario.X_WINS to MoveSet(
-            moves = setOf(Pair(0, 0), Pair(0, 1), Pair(1, 1), Pair(2, 0), Pair(2, 2)),
+            moves = setOf(
+                Coordinate.of(0, 0),
+                Coordinate.of(0, 1),
+                Coordinate.of(1, 1),
+                Coordinate.of(2, 0),
+                Coordinate.of(2, 2),
+
+            ),
             finalGameBoardState = """
                 | X | O |   |
                 |---|---|---|
@@ -196,7 +263,15 @@ val gameMoves = mapOf(
             """.trimIndent(),
         ),
         GameScenario.O_WINS to MoveSet(
-            moves = setOf(Pair(0, 1), Pair(0, 0), Pair(1, 0), Pair(1, 1), Pair(2, 1), Pair(2, 2)),
+            moves = setOf(
+                Coordinate.of(0, 1),
+                Coordinate.of(0, 0),
+                Coordinate.of(1, 0),
+                Coordinate.of(1, 1),
+                Coordinate.of(2, 1),
+                Coordinate.of(2, 2),
+
+            ),
             finalGameBoardState = """
                 | O | X |   |
                 |---|---|---|
@@ -208,7 +283,13 @@ val gameMoves = mapOf(
     ),
     GameOverCondition.DIAGONAL_TOP_RIGHT_TO_BOTTOM_LEFT to mapOf(
         GameScenario.X_WINS to MoveSet(
-            moves = setOf(Pair(0, 2), Pair(0, 1), Pair(1, 1), Pair(1, 2), Pair(2, 0)),
+            moves = setOf(
+                Coordinate.of(0, 2),
+                Coordinate.of(0, 1),
+                Coordinate.of(1, 1),
+                Coordinate.of(1, 2),
+                Coordinate.of(2, 0),
+            ),
             finalGameBoardState = """
                 |   | O | X |
                 |---|---|---|
@@ -218,7 +299,15 @@ val gameMoves = mapOf(
             """.trimIndent(),
         ),
         GameScenario.O_WINS to MoveSet(
-            moves = setOf(Pair(0, 0), Pair(0, 2), Pair(1, 0), Pair(1, 1), Pair(2, 2), Pair(2, 0)),
+            moves = setOf(
+                Coordinate.of(0, 0),
+                Coordinate.of(0, 2),
+                Coordinate.of(1, 0),
+                Coordinate.of(1, 1),
+                Coordinate.of(2, 2),
+                Coordinate.of(2, 0),
+
+            ),
             finalGameBoardState = """
                 | X |   | O |
                 |---|---|---|
@@ -231,8 +320,15 @@ val gameMoves = mapOf(
     GameOverCondition.DRAW to mapOf(
         GameScenario.DRAW_1 to MoveSet(
             moves = setOf(
-                Pair(0, 1), Pair(0, 0), Pair(1, 1), Pair(0, 2), Pair(1, 2),
-                Pair(1, 0), Pair(2, 0), Pair(2, 1), Pair(2, 2),
+                Coordinate.of(0, 1),
+                Coordinate.of(0, 0),
+                Coordinate.of(1, 1),
+                Coordinate.of(0, 2),
+                Coordinate.of(1, 2),
+                Coordinate.of(1, 0),
+                Coordinate.of(2, 0),
+                Coordinate.of(2, 1),
+                Coordinate.of(2, 2),
             ),
             finalGameBoardState = """
                 | O | X | O |
@@ -245,7 +341,7 @@ val gameMoves = mapOf(
     ),
 )
 
-fun getMovesFor(condition: GameOverCondition, key: GameScenario): Set<Pair<Int, Int>> {
+fun getMovesFor(condition: GameOverCondition, key: GameScenario): Set<Coordinate> {
     return gameMoves[condition]?.get(key)?.moves ?: emptySet()
 }
 
@@ -257,17 +353,15 @@ fun getFinalGameBoardStateFor(condition: GameOverCondition, key: GameScenario): 
  * Marks a cell in the game and asserts that the move was successful.
  *
  * @param game The TicTacToe3x3 game instance.
- * @param row The row index of the cell to mark (0-2).
- * @param column The column index of the cell to mark (0-2).
+ * @param coordinate The coordinate of the cell to mark.
  * @return The successful result of the move.
  * @throws AssertionError if the move is not successful.
  */
 internal fun markCellAndAssertSuccess(
     game: TicTacToe3x3,
-    row: Int,
-    column: Int,
+    coordinate: Coordinate,
 ): TicTacToe3x3MarkResult.Success {
-    val result = game.markCell(row, column)
+    val result = game.markCell(coordinate = coordinate)
     assertTrue("Expected successful move", result is TicTacToe3x3MarkResult.Success)
     return result as TicTacToe3x3MarkResult.Success
 }
@@ -279,13 +373,13 @@ internal fun markCellAndAssertSuccess(
  * @param currentMoveIndex Index of the current move (X-based)
  */
 internal fun printGameBoardFromMoves(
-    moves: Set<Pair<Int, Int>>,
+    moves: Set<Coordinate>,
     currentMoveIndex: Int = moves.size - 1,
 ) {
     println("Game state after move $currentMoveIndex:")
     for (row in 0..2) {
         for (col in 0..2) {
-            val moveIndex = moves.indexOfFirst { it == Pair(row, col) }
+            val moveIndex = moves.indexOfFirst { it.x == row && it.y == col }
             val cell = when {
                 moveIndex == -1 -> " "
                 moveIndex <= currentMoveIndex -> if (moveIndex % 2 == 0) "X" else "O"
@@ -306,7 +400,7 @@ internal fun printGrid3x3(game: TicTacToe3x3) {
     println("Current game state:")
     for (row in 0..2) {
         for (col in 0..2) {
-            val cell = when (game.getPlayerAtCell(row, col)) {
+            val cell = when (game.getPlayerAt(coordinate = Coordinate.of(x = row, y = col))) {
                 Player.X -> "X"
                 Player.O -> "O"
                 null -> " "

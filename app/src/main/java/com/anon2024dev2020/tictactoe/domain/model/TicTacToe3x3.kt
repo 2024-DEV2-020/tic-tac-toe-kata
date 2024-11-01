@@ -24,18 +24,18 @@ data class TicTacToe3x3(
     /**
      * Marks a cell in the Tic-Tac-Toe grid with the current player's symbol.
      *
-     * @param row The row index of the cell to mark (0-2).
-     * @param column The column index of the cell to mark (0-2).
+     * @param coordinate The [Coordinate] of the cell to mark.
      * @return A [TicTacToe3x3MarkResult] indicating the success or failure of the operation.
+     *         If successful, it contains a new [TicTacToe3x3] instance with the updated state.
      */
-    fun markCell(row: Int, column: Int): TicTacToe3x3MarkResult =
-        grid.markCell(player = currentPlayer, row = row, column = column)
+    fun markCell(coordinate: Coordinate): TicTacToe3x3MarkResult =
+        grid.markCell(player = currentPlayer, coordinate = coordinate)
             .mapToTicTacToe3x3MarkResult(
                 currentPlayer = currentPlayer,
                 currentGameState = this,
             )
 
-    fun getPlayerAtCell(row: Int, column: Int): Player? = grid.getCell(row, column).player
+    fun getPlayerAt(coordinate: Coordinate): Player? = grid.getCell(coordinate = coordinate).player
 }
 
 /**
