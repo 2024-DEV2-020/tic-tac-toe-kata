@@ -1,4 +1,4 @@
-package com.anon2024dev2020.tictactoe.model
+package com.anon2024dev2020.tictactoe.model.ai
 
 import com.anon2024dev2020.tictactoe.domain.model.Coordinate
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
@@ -6,6 +6,7 @@ import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3State
 import com.anon2024dev2020.tictactoe.domain.model.ai.TicTacToe3x3AI
 import com.anon2024dev2020.tictactoe.domain.model.ai.TicTacToe3x3AIEasy
 import com.anon2024dev2020.tictactoe.domain.model.ai.TicTacToe3x3AIMarkResult
+import com.anon2024dev2020.tictactoe.model.markCellAndAssertSuccess
 import kotlin.random.Random
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -85,7 +86,7 @@ class TicTacToe3x3AIEasyTest {
             game = markCellAndAssertSuccess(game = game, coordinate = it).updatedTicTacToe
         }
         val result = easyBot.markCell(currentGameState = game)
-        markCellAndAssertSuccess(
+        game = markCellAndAssertSuccess(
             game = game,
             coordinate = (result as TicTacToe3x3AIMarkResult.Success).coordinate,
         ).updatedTicTacToe

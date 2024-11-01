@@ -21,6 +21,27 @@ data class Grid3x3(
         }
     }
 
+    /**
+     * Returns a list of all cells in the Tic-Tac-Toe grid.
+     *
+     * The cells are ordered row by row, from top to bottom and left to right.
+     * The order corresponds to the following grid positions:
+     *
+     * (0,0) (0,1) (0,2)
+     * (1,0) (1,1) (1,2)
+     * (2,0) (2,1) (2,2)
+     *
+     * Where (row, column) represents the coordinate of each cell.
+     */
+    val cells: List<Grid3x3Cell>
+        get() = grid3x3.flatten()
+
+    /**
+     * Returns a list of all empty cells (cells with null value) in the grid.
+     */
+    val emptyCells: List<Grid3x3Cell>
+        get() = cells.filter { it.value == null }
+
     val winner: Player?
         get() {
             for (pattern in winningPatterns) {

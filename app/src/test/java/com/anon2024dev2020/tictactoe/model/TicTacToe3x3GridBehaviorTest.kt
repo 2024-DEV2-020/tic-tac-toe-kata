@@ -243,4 +243,75 @@ class TicTacToe3x3GridBehaviorTest {
             game.state is TicTacToe3x3State.Victory,
         )
     }
+
+    @Test
+    fun `cells should return all cells in correct order`() {
+        val cells = game.cells
+
+        assertEquals("There should be 9 cells in total", 9, cells.size)
+
+        // Check if cells are in the correct order
+        for (row in 0..2) {
+            for (col in 0..2) {
+                val index = row * 3 + col
+                assertEquals(
+                    "Cell at index $index should have coordinate ($row, $col)",
+                    Coordinate.of(row, col),
+                    cells[index].coordinate,
+                )
+            }
+        }
+    }
+
+    @Test
+    fun `emptyCells should return all cells initially`() {
+        val emptyCells = game.emptyCells
+
+        assertEquals("All 9 cells should be empty initially", 9, emptyCells.size)
+        assertTrue("All cells should have null value", emptyCells.all { it.value == null })
+    }
+
+    @Test
+    fun `emptyCells should not include marked cells`() {
+        // Mark some cells
+        game = markCellAndAssertSuccess(game, Coordinate.of(0, 0)).updatedTicTacToe
+        game = markCellAndAssertSuccess(game, Coordinate.of(1, 1)).updatedTicTacToe
+        game = markCellAndAssertSuccess(game, Coordinate.of(2, 2)).updatedTicTacToe
+
+        val emptyCells = game.emptyCells
+
+        assertEquals("There should be 6 empty cells after marking 3", 6, emptyCells.size)
+        assertTrue(
+            "Empty cells should not include marked cells",
+            emptyCells.none {
+                it.coordinate in listOf(
+                    Coordinate.of(0, 0),
+                    Coordinate.of(1, 1),
+                    Coordinate.of(2, 2),
+                )
+            },
+        )
+    }
+
+    @Test
+    fun `emptyCells should return empty list when all cells are marked`() {
+//        | O | X | O |
+//        |---|---|---|
+//        | O | X | X |
+//        |---|---|---|
+//        | X | O | X |
+        getMovesFor(GameOverCondition.DRAW, GameScenario.DRAW_1).forEach {
+            game = markCellAndAssertSuccess(
+                game = game,
+                coordinate = it,
+            ).updatedTicTacToe
+        }
+        assertTrue(
+            "Game should be in Draw state",
+            game.state is TicTacToe3x3State.Draw,
+        )
+
+        val emptyCells = game.emptyCells
+        assertTrue("EmptyCells should be empty when all cells are marked", emptyCells.isEmpty())
+    }
 }
