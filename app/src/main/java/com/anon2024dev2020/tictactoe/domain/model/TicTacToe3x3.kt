@@ -12,6 +12,7 @@ package com.anon2024dev2020.tictactoe.domain.model
 data class TicTacToe3x3(
     val currentPlayer: Player = Player.X,
     private val grid: Grid3x3 = Grid3x3(),
+    private val stateHistory: List<TicTacToe3x3> = emptyList(),
 ) {
     val state: TicTacToe3x3State =
         when {
@@ -35,7 +36,11 @@ data class TicTacToe3x3(
                 currentGameState = this,
             )
 
-    fun getPlayerAt(coordinate: Coordinate): Player? = grid.getCell(coordinate = coordinate).player
+    fun undo(): TicTacToe3x3UndoResult = TODO()
+
+    fun getCellAtTurn(index: Int): Grid3x3Cell = TODO()
+
+    fun getPlayerAt(coordinate: Coordinate): Player? = grid.getCell(coordinate = coordinate).value
 }
 
 /**
@@ -58,13 +63,13 @@ private fun Grid3x3MarkResult.mapToTicTacToe3x3MarkResult(
     is Grid3x3MarkResult.Failure -> {
         TicTacToe3x3MarkResult.Failure(
             reason = when (this.reason) {
-                Grid3x3MarkResult.Grid3x3Error.OCCUPIED_CELL ->
+                Grid3x3MarkResult.Grid3x3MarkError.OCCUPIED_CELL ->
                     TicTacToe3x3MarkResult.TicTacToe3x3Error.OCCUPIED_CELL
 
-                Grid3x3MarkResult.Grid3x3Error.OUT_OF_BOUNDS ->
+                Grid3x3MarkResult.Grid3x3MarkError.OUT_OF_BOUNDS ->
                     TicTacToe3x3MarkResult.TicTacToe3x3Error.OUT_OF_BOUNDS
 
-                Grid3x3MarkResult.Grid3x3Error.GAME_OVER ->
+                Grid3x3MarkResult.Grid3x3MarkError.GAME_OVER ->
                     TicTacToe3x3MarkResult.TicTacToe3x3Error.GAME_OVER
             },
         )
@@ -81,4 +86,7 @@ private fun Grid3x3MarkResult.mapToTicTacToe3x3MarkResult(
             grid = this.updatedGrid,
         ),
     )
+
+    is Grid3x3UndoResult.Failure -> TODO()
+    is Grid3x3UndoResult.Success -> TODO()
 }

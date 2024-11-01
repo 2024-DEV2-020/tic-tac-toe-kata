@@ -9,7 +9,11 @@ package com.anon2024dev2020.tictactoe.domain.model
  * @property grid3x3 A 3x3 list of lists representing the game grid.
  */
 data class Grid3x3(
-    private val grid3x3: List<List<Grid3x3Cell>> = List(ROWS) { List(COLUMNS) { Grid3x3Cell() } },
+    private val grid3x3: List<List<Grid3x3Cell>> = List(ROWS) { row ->
+        List(COLUMNS) { col ->
+            Grid3x3Cell(value = null, coordinate = Coordinate.of(row, col))
+        }
+    },
 ) {
     init {
         require(grid3x3.size == ROWS && grid3x3.all { it.size == COLUMNS }) {
@@ -21,10 +25,10 @@ data class Grid3x3(
         get() {
             for (pattern in winningPatterns) {
                 val (coordinate1, coordinate2, coordinate3) = pattern.toList()
-                val playerAtCoordinate1 = getCell(coordinate1).player
+                val playerAtCoordinate1 = getCell(coordinate1).value
                 if (playerAtCoordinate1 != null &&
-                    playerAtCoordinate1 == getCell(coordinate2).player &&
-                    playerAtCoordinate1 == getCell(coordinate3).player
+                    playerAtCoordinate1 == getCell(coordinate2).value &&
+                    playerAtCoordinate1 == getCell(coordinate3).value
                 ) {
                     return playerAtCoordinate1
                 }
@@ -33,7 +37,7 @@ data class Grid3x3(
         }
 
     val isDraw: Boolean
-        get() = !grid3x3.any { row -> row.any { cell -> cell.player == null } } && winner == null
+        get() = !grid3x3.any { row -> row.any { cell -> cell.value == null } } && winner == null
 
     val isInProgress: Boolean
         get() = winner == null && !isDraw
@@ -56,26 +60,22 @@ data class Grid3x3(
      */
     fun markCell(player: Player, coordinate: Coordinate): Grid3x3MarkResult {
         if (!isInProgress) {
-            return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3Error.GAME_OVER)
+            return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3MarkError.GAME_OVER)
         }
 
         if (coordinate.x !in 0 until ROWS || coordinate.y !in 0 until COLUMNS) {
-            return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3Error.OUT_OF_BOUNDS)
+            return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3MarkError.OUT_OF_BOUNDS)
         }
 
-        if (getCell(coordinate).player != null) {
-            return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3Error.OCCUPIED_CELL)
+        if (getCell(coordinate).value != null) {
+            return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3MarkError.OCCUPIED_CELL)
         }
 
         return Grid3x3MarkResult.Success(
             updatedGrid = this.copy(
-                grid3x3 = grid3x3.mapIndexed { rowIndex, existingRowList ->
-                    if (rowIndex == coordinate.x) {
-                        existingRowList.mapIndexed { colIndex, existingCell ->
-                            if (colIndex == coordinate.y) Grid3x3Cell(player) else existingCell
-                        }
-                    } else {
-                        existingRowList
+                grid3x3 = grid3x3.map { row ->
+                    row.map { cell ->
+                        if (cell.coordinate == coordinate) cell.copy(value = player) else cell
                     }
                 },
             ),
