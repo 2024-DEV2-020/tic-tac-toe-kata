@@ -20,6 +20,7 @@ enum class GameOverCondition {
 
 enum class GameScenario {
     X_WINS,
+    X_WINS_AND_BOARD_IS_FULL,
     O_WINS,
     DRAW_1,
 }
@@ -226,6 +227,26 @@ val gameMoves = mapOf(
                 | O | X | X |
             """.trimIndent(),
         ),
+        GameScenario.X_WINS_AND_BOARD_IS_FULL to MoveSet(
+            moves = setOf(
+                Coordinate.of(0, 2),
+                Coordinate.of(0, 0),
+                Coordinate.of(1, 2),
+                Coordinate.of(1, 1),
+                Coordinate.of(0, 1),
+                Coordinate.of(1, 0),
+                Coordinate.of(2, 0),
+                Coordinate.of(2, 1),
+                Coordinate.of(2, 2),
+            ),
+            finalGameBoardState = """
+                    | O | X | X |
+                    |---|---|---|
+                    | O | O | X |
+                    |---|---|---|
+                    | X | O | X |
+            """.trimIndent(),
+        ),
         GameScenario.O_WINS to MoveSet(
             moves = setOf(
                 Coordinate.of(0, 0),
@@ -372,7 +393,7 @@ internal fun markCellAndAssertSuccess(
  * @param moves List of moves made in the game
  * @param currentMoveIndex Index of the current move (X-based)
  */
-internal fun printGameBoardFromMoves(
+internal fun printGameBoardFromSetOfMoves(
     moves: Set<Coordinate>,
     currentMoveIndex: Int = moves.size - 1,
 ) {
@@ -393,10 +414,18 @@ internal fun printGameBoardFromMoves(
     println("\n")
 }
 
+internal fun printGameBoardFromSetOfMovesForAllStates(moves: Set<Coordinate>) {
+    for (i in 0..8) {
+        println("Move ${i + 1}:")
+        printGameBoardFromSetOfMoves(moves, currentMoveIndex = i)
+        println()
+    }
+}
+
 /**
  * Helper function to print the current state of the game
  */
-internal fun printGrid3x3(game: TicTacToe3x3) {
+internal fun printTicTacToe3x3GameBoardState(game: TicTacToe3x3) {
     println("Current game state:")
     for (row in 0..2) {
         for (col in 0..2) {

@@ -19,72 +19,21 @@ data class Grid3x3(
 
     val winner: Player?
         get() {
-//        HORIZONTAL_TOP
-            val playerCell00 = grid3x3[0][0].player
-            if (playerCell00 != null &&
-                playerCell00 == grid3x3[0][1].player && playerCell00 == grid3x3[0][2].player
-            ) {
-                return playerCell00
+            for (pattern in winningPatterns) {
+                val (coordinate1, coordinate2, coordinate3) = pattern.toList()
+                val playerAtCoordinate1 = getCell(coordinate1).player
+                if (playerAtCoordinate1 != null &&
+                    playerAtCoordinate1 == getCell(coordinate2).player &&
+                    playerAtCoordinate1 == getCell(coordinate3).player
+                ) {
+                    return playerAtCoordinate1
+                }
             }
-
-//        HORIZONTAL_MIDDLE,
-            val playerCell10 = grid3x3[1][0].player
-            if (playerCell10 != null &&
-                playerCell10 == grid3x3[1][1].player && playerCell10 == grid3x3[1][2].player
-            ) {
-                return playerCell10
-            }
-
-//        HORIZONTAL_BOTTOM,
-            val playerCell20 = grid3x3[2][0].player
-            if (playerCell20 != null &&
-                playerCell20 == grid3x3[2][1].player && playerCell20 == grid3x3[2][2].player
-            ) {
-                return playerCell20
-            }
-
-//        VERTICAL_LEFT,
-            if (playerCell00 != null &&
-                playerCell00 == grid3x3[1][0].player && playerCell00 == grid3x3[2][0].player
-            ) {
-                return playerCell00
-            }
-
-//        VERTICAL_MIDDLE,
-            val playerCell01 = grid3x3[0][1].player
-            if (playerCell01 != null &&
-                playerCell01 == grid3x3[1][1].player && playerCell01 == grid3x3[2][1].player
-            ) {
-                return playerCell01
-            }
-
-//        VERTICAL_RIGHT,
-            val playerCell02 = grid3x3[0][2].player
-            if (playerCell02 != null &&
-                playerCell02 == grid3x3[1][2].player && playerCell02 == grid3x3[2][2].player
-            ) {
-                return playerCell02
-            }
-
-//        DIAGONAL_TOP_LEFT_TO_BOTTOM_RIGHT,
-            if (playerCell00 != null &&
-                playerCell00 == grid3x3[1][1].player && playerCell00 == grid3x3[2][2].player
-            ) {
-                return playerCell00
-            }
-
-//        DIAGONAL_TOP_RIGHT_TO_BOTTOM_LEFT,
-            if (playerCell02 != null &&
-                playerCell02 == grid3x3[1][1].player && playerCell02 == grid3x3[2][0].player
-            ) {
-                return playerCell02
-            }
-
             return null
         }
 
     val isDraw: Boolean
-        get() = winner == null && grid3x3.all { row -> row.all { cell -> cell.player != null } }
+        get() = !grid3x3.any { row -> row.any { cell -> cell.player == null } } && winner == null
 
     val isInProgress: Boolean
         get() = winner == null && !isDraw
@@ -136,5 +85,19 @@ data class Grid3x3(
     companion object {
         private const val COLUMNS = 3
         private const val ROWS = 3
+
+        private val winningPatterns = setOf(
+            // Rows
+            setOf(Coordinate.of(0, 0), Coordinate.of(0, 1), Coordinate.of(0, 2)),
+            setOf(Coordinate.of(1, 0), Coordinate.of(1, 1), Coordinate.of(1, 2)),
+            setOf(Coordinate.of(2, 0), Coordinate.of(2, 1), Coordinate.of(2, 2)),
+            // Columns
+            setOf(Coordinate.of(0, 0), Coordinate.of(1, 0), Coordinate.of(2, 0)),
+            setOf(Coordinate.of(0, 1), Coordinate.of(1, 1), Coordinate.of(2, 1)),
+            setOf(Coordinate.of(0, 2), Coordinate.of(1, 2), Coordinate.of(2, 2)),
+            // Diagonals
+            setOf(Coordinate.of(0, 0), Coordinate.of(1, 1), Coordinate.of(2, 2)),
+            setOf(Coordinate.of(0, 2), Coordinate.of(1, 1), Coordinate.of(2, 0)),
+        )
     }
 }

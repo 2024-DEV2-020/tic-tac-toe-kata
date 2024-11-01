@@ -530,4 +530,26 @@ class TicTacToe3x3GameOverConditionsTest {
             game.state is TicTacToe3x3State.Draw,
         )
     }
+
+    @Test
+    fun `should detect win when all cells are full and there is a winner`() {
+//        | O | X | X |
+//        |---|---|---|
+//        | O | O | X |
+//        |---|---|---|
+//        | X | O | X |
+        getMovesFor(
+            GameOverCondition.VERTICAL_RIGHT,
+            GameScenario.X_WINS_AND_BOARD_IS_FULL,
+        ).forEach {
+            game = markCellAndAssertSuccess(
+                game = game,
+                coordinate = it,
+            ).updatedTicTacToe
+        }
+        assertTrue(
+            "Game should be in Victory state",
+            game.state is TicTacToe3x3State.Victory,
+        )
+    }
 }
