@@ -10,15 +10,15 @@ class CoordinateTest {
     @Test
     fun `create coordinate using of method`() {
         val coord = Coordinate.of(1, 2)
-        assertEquals(1, coord.x)
-        assertEquals(2, coord.y)
+        assertEquals(1, coord.row)
+        assertEquals(2, coord.column)
     }
 
     @Test
     fun `create coordinate using primary constructor`() {
         val coord = Coordinate(Pair(3, 4))
-        assertEquals(3, coord.x)
-        assertEquals(4, coord.y)
+        assertEquals(3, coord.row)
+        assertEquals(4, coord.column)
     }
 
     @Test

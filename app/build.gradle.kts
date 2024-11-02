@@ -90,7 +90,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // ==================== Networking ====================
-    // TODO: add networking dependencies
+    // none
 
     // ==================== Database ====================
     // For a free tier online DB with sync capabilities,
