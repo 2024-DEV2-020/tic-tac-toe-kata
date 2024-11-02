@@ -1,21 +1,14 @@
 package com.anon2024dev2020.tictactoe.ui.navigation.destinations.game
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.anon2024dev2020.tictactoe.R
 import com.anon2024dev2020.tictactoe.presentation.game.GameMode
 import com.anon2024dev2020.tictactoe.presentation.game.GameViewModel
 import com.anon2024dev2020.tictactoe.ui.game.GameScreen
@@ -35,7 +28,7 @@ internal fun NavGraphBuilder.gameDestination(
     setGameScreenFABOnClick: (() -> Unit) -> Unit,
 ) {
     composable<Game> { navBackStackEntry ->
-        // TODO: use
+        // TODO: use for bot
         val gameMode: GameMode = navBackStackEntry.toRoute<Game>().mode
 
         val viewModel: GameViewModel = hiltViewModel()
@@ -59,14 +52,6 @@ internal fun NavGraphBuilder.gameDestination(
                     totalDraws = state.totalDraws,
                 )
             }
-
-            else -> Text(
-                modifier = Modifier.fillMaxSize(),
-                text = stringResource(id = R.string.how_did_you_end_up_here_error_message),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.error,
-                textAlign = TextAlign.Center,
-            )
         }
     }
 }
