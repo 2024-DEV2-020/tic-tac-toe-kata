@@ -16,10 +16,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.anon2024dev2020.tictactoe.R
+import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
 import com.anon2024dev2020.tictactoe.ui.theme.TicTacToeTheme
 
 @Composable
-fun GameScreen(screenName: String) {
+fun GameScreen(game: TicTacToe3x3, xTotalGamesWon: Int, oTotalGamesWon: Int, totalDraws: Int) {
     Column(
         Modifier
             .fillMaxSize()
@@ -28,12 +29,6 @@ fun GameScreen(screenName: String) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text(
-            modifier = Modifier,
-            text = screenName,
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onBackground,
-        )
     }
 }
 
@@ -58,7 +53,12 @@ fun PreviewGameScreen() {
                 Modifier
                     .fillMaxSize(),
             ) {
-                GameScreen(screenName = "Game")
+                GameScreen(
+                    game = TicTacToe3x3(),
+                    xTotalGamesWon = 0,
+                    oTotalGamesWon = 0,
+                    totalDraws = 0,
+                )
             }
         }
     }

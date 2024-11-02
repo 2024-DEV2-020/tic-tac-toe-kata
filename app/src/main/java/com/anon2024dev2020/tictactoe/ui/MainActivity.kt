@@ -24,7 +24,6 @@ import com.anon2024dev2020.tictactoe.ui.home.HomeScreen
 import com.anon2024dev2020.tictactoe.ui.home.HomeScreenFABButton
 import com.anon2024dev2020.tictactoe.ui.navigation.NavigationHost
 import com.anon2024dev2020.tictactoe.ui.navigation.destinations.game.Game
-import com.anon2024dev2020.tictactoe.ui.navigation.destinations.home.Home
 import com.anon2024dev2020.tictactoe.ui.theme.TicTacToeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,13 +36,6 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             // Strategy to set a FAB onClick, in a Single Activity App Architecture
-            val (homeScreenFABButtonOnClick, setHomeScreenFABButtonOnClick) =
-                remember {
-                    mutableStateOf<(() -> Unit)?>(
-                        null,
-                    )
-                }
-
             val (gameScreenFABButtonOnClick, setGameScreenFABButtonOnClick) =
                 remember {
                     mutableStateOf<(() -> Unit)?>(
@@ -60,7 +52,6 @@ class MainActivity : ComponentActivity() {
                             .currentBackStackEntryAsState()
                             .value
                             ?.destination,
-                        homeScreenFABButtonOnClick = homeScreenFABButtonOnClick,
                         gameScreenFABButtonOnClick = gameScreenFABButtonOnClick,
                     )
                 },
@@ -68,7 +59,6 @@ class MainActivity : ComponentActivity() {
                 NavigationHost(
                     modifier = Modifier.padding(scaffoldInnerPadding),
                     navController = navController,
-                    setHomeScreenFABButtonOnClick = setHomeScreenFABButtonOnClick,
                     setGameScreenFABButtonOnClick = setGameScreenFABButtonOnClick,
                 )
             }
@@ -97,12 +87,9 @@ private fun RootComposableAsScaffold(
 @Composable
 fun CurrentFloatingActionButton(
     currentDestination: NavDestination?,
-    homeScreenFABButtonOnClick: (() -> Unit)?,
     gameScreenFABButtonOnClick: (() -> Unit)?,
 ) {
-    if (currentDestination?.hasRoute(Home::class) == true) {
-        HomeScreenFABButton(onClick = homeScreenFABButtonOnClick ?: {})
-    } else if (currentDestination?.hasRoute(Game::class) == true) {
+    if (currentDestination?.hasRoute(Game::class) == true) {
         GameScreenFABButton(onClick = gameScreenFABButtonOnClick ?: {})
     }
 }
@@ -117,11 +104,14 @@ fun PreviewRootComposable() {
                 Modifier
                     .fillMaxSize(),
             ) {
-                RootComposableAsScaffold(currentFloatingActionButton = {
-                    HomeScreenFABButton {
+                RootComposableAsScaffold(
+                    currentFloatingActionButton = {
+                        HomeScreenFABButton {
+                        }
+                    },
+                ) {
+                    HomeScreen {
                     }
-                }) {
-                    HomeScreen(screenName = "Home")
                 }
             }
         }

@@ -2,4 +2,6 @@
     <string name="app_name">Tic Tac Toe</string>
     <string name="fab_text_navigate_to_game">Go to Game</string>
     <string name="fab_text_navigate_to_home">Go to Home</string>
+    <string name="tic_tac_toe_heading">TIC TAC TOE</string>
+    <string name="how_did_you_end_up_here_error_message">You discovered a rare bug that isn\'t supposed to happen! Send a bug report for your reward 🐛</string>
 </resources>

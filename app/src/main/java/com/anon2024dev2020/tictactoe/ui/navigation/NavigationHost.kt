@@ -18,7 +18,6 @@ import kotlinx.serialization.Serializable
 fun NavigationHost(
     modifier: Modifier,
     navController: NavHostController,
-    setHomeScreenFABButtonOnClick: (() -> Unit) -> Unit,
     setGameScreenFABButtonOnClick: (() -> Unit) -> Unit,
 ) {
     NavHost(
@@ -29,9 +28,8 @@ fun NavigationHost(
         navigation<NestedGraphs.GameGraph>(startDestination = Home) {
             homeDestination(
                 onNavigateToGame = {
-                    navController.navigateToGame()
+                    navController.navigateToGame(it)
                 },
-                setHomeScreenFABOnClick = setHomeScreenFABButtonOnClick,
             )
 
             gameDestination(
