@@ -12,8 +12,17 @@ package com.anon2024dev2020.tictactoe.domain.model
 data class TicTacToe3x3(
     val currentPlayer: Player = Player.X,
     private val grid: Grid3x3 = Grid3x3(),
-    private val stateHistory: List<TicTacToe3x3> = emptyList(),
+    internal val history: List<Grid3x3> = emptyList(),
 ) {
+
+    /**
+     * The current state of the Tic-Tac-Toe game.
+     *
+     * @return [TicTacToe3x3State.Victory] if there's a winner,
+     *         [TicTacToe3x3State.InProgress] if the game is ongoing,
+     *         [TicTacToe3x3State.Draw] if it's a draw.
+     * @throws IllegalStateException if an invalid state is encountered.
+     */
     val state: TicTacToe3x3State =
         when {
             grid.winner != null -> TicTacToe3x3State.Victory(grid.winner!!)
@@ -57,11 +66,82 @@ data class TicTacToe3x3(
                 currentGameState = this,
             )
 
-    fun undo(): TicTacToe3x3UndoResult = TODO()
+    /**
+     * Undoes the last move made in the game.
+     *
+     * @return A [TicTacToe3x3UndoResult] indicating success (containing updated state)
+     *  or failure of the undo operation.
+     */
+    fun undo(): TicTacToe3x3UndoResult {
+        if (history.isEmpty()) {
+            return TicTacToe3x3UndoResult.Failure(
+                reason = TicTacToe3x3UndoResult.TicTacToe3x3UndoError.NO_MOVES_TO_UNDO,
+            )
+        }
 
-    fun getCellAtTurn(index: Int): Grid3x3Cell = TODO()
+        if (state !is TicTacToe3x3State.InProgress) {
+            return TicTacToe3x3UndoResult.Failure(
+                reason = TicTacToe3x3UndoResult.TicTacToe3x3UndoError.GAME_OVER,
+            )
+        }
 
-    fun getPlayerAt(coordinate: Coordinate): Player? = grid.getCell(coordinate = coordinate).value
+        return if (history.size == 1) {
+            TicTacToe3x3UndoResult.Success(
+                updatedTicTacToe = this.copy(
+                    currentPlayer = currentPlayer.opponent,
+                    grid = Grid3x3(),
+                    history = emptyList(),
+                ),
+            )
+        } else {
+            val previousGames = history.dropLast(1)
+            TicTacToe3x3UndoResult.Success(
+                updatedTicTacToe = this.copy(
+                    currentPlayer = currentPlayer.opponent,
+                    grid = previousGames.last(),
+                    history = previousGames,
+                ),
+            )
+        }
+    }
+
+    /**
+     * Retrieves the move made at a specific turn in the game's history.
+     *
+     * @param turnIndex The index of the turn in the game's history (0-based, LIFO).
+     * @return The [Grid3x3Cell] representing the move made at the specified turn.
+     */
+    fun getMoveMadeAt(turnIndex: Int): Grid3x3Cell {
+        require(turnIndex >= 0 && turnIndex < history.size) {
+            "Turn index out of bounds: $turnIndex. History size: ${history.size}"
+        }
+//        val gridAtTurn = history[turnIndex]
+//        if (turnIndex == 0) {
+//            // If one turn has been played, there will only be one marked cell
+//            return gridAtTurn.grid3x3.flatten().first { it.value != null }
+//        } else {
+//            // If multiple turns have been played, extract the diff
+//            val previousGrid = history[turnIndex - 1]
+//
+//            val changedCell = gridAtTurn.grid3x3
+//                .flatten()
+//                .zip(previousGrid.grid3x3.flatten())
+//                .find { (currentCell, previousCell) -> currentCell.value != previousCell.value }
+//                ?.first
+//
+//            return changedCell
+//                ?: throw IllegalStateException("No cell change found between consecutive turns")
+//        } d
+        TODO()
+    }
+
+    /**
+     * Retrieves the player occupying the cell at the specified coordinate.
+     *
+     * @param coordinate The [Coordinate] of the cell to check.
+     * @return The [Player] occupying the cell, or null if the cell is empty.
+     */
+    fun playerAt(coordinate: Coordinate): Player? = grid.cellAt(coordinate = coordinate).value
 }
 
 /**
@@ -105,9 +185,7 @@ private fun Grid3x3MarkResult.mapToTicTacToe3x3MarkResult(
                 currentPlayer
             },
             grid = this.updatedGrid,
+            history = currentGameState.history + this.updatedGrid,
         ),
     )
-
-    is Grid3x3UndoResult.Failure -> TODO()
-    is Grid3x3UndoResult.Success -> TODO()
 }

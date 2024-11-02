@@ -400,7 +400,7 @@ internal fun printGameBoardFromSetOfMoves(
     println("Game state after move $currentMoveIndex:")
     for (row in 0..2) {
         for (col in 0..2) {
-            val moveIndex = moves.indexOfFirst { it.x == row && it.y == col }
+            val moveIndex = moves.indexOfFirst { it.row == row && it.column == col }
             val cell = when {
                 moveIndex == -1 -> " "
                 moveIndex <= currentMoveIndex -> if (moveIndex % 2 == 0) "X" else "O"
@@ -429,7 +429,7 @@ internal fun printTicTacToe3x3GameBoardState(game: TicTacToe3x3) {
     println("Current game state:")
     for (row in 0..2) {
         for (col in 0..2) {
-            val cell = when (game.getPlayerAt(coordinate = Coordinate.of(x = row, y = col))) {
+            val cell = when (game.playerAt(coordinate = Coordinate.of(row = row, column = col))) {
                 Player.X -> "X"
                 Player.O -> "O"
                 null -> " "

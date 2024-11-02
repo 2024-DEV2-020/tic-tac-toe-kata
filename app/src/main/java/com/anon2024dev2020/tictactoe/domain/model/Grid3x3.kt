@@ -42,14 +42,14 @@ data class Grid3x3(
     val emptyCells: List<Grid3x3Cell>
         get() = cells.filter { it.value == null }
 
-    val winner: Player?
+    internal val winner: Player?
         get() {
             for (pattern in winningPatterns) {
                 val (coordinate1, coordinate2, coordinate3) = pattern.toList()
-                val playerAtCoordinate1 = getCell(coordinate1).value
+                val playerAtCoordinate1 = cellAt(coordinate1).value
                 if (playerAtCoordinate1 != null &&
-                    playerAtCoordinate1 == getCell(coordinate2).value &&
-                    playerAtCoordinate1 == getCell(coordinate3).value
+                    playerAtCoordinate1 == cellAt(coordinate2).value &&
+                    playerAtCoordinate1 == cellAt(coordinate3).value
                 ) {
                     return playerAtCoordinate1
                 }
@@ -57,17 +57,17 @@ data class Grid3x3(
             return null
         }
 
-    val isDraw: Boolean
+    internal val isDraw: Boolean
         get() = !grid3x3.any { row -> row.any { cell -> cell.value == null } } && winner == null
 
-    val isInProgress: Boolean
+    internal val isInProgress: Boolean
         get() = winner == null && !isDraw
 
-    fun getCell(coordinate: Coordinate): Grid3x3Cell {
-        require(coordinate.x in 0 until ROWS && coordinate.y in 0 until COLUMNS) {
-            "Invalid cell coordinates: x=${coordinate.x}, y=${coordinate.y}"
+    internal fun cellAt(coordinate: Coordinate): Grid3x3Cell {
+        require(coordinate.row in 0 until ROWS && coordinate.column in 0 until COLUMNS) {
+            "Invalid cell coordinates: x=${coordinate.row}, y=${coordinate.column}"
         }
-        return grid3x3[coordinate.x][coordinate.y]
+        return grid3x3[coordinate.row][coordinate.column]
     }
 
     /**
@@ -79,16 +79,16 @@ data class Grid3x3(
      *         If successful, it contains a new [Grid3x3] instance with the updated state.
      *         If unsuccessful, it contains an error indicating the reason for failure.
      */
-    fun markCell(player: Player, coordinate: Coordinate): Grid3x3MarkResult {
+    internal fun markCell(player: Player, coordinate: Coordinate): Grid3x3MarkResult {
         if (!isInProgress) {
             return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3MarkError.GAME_OVER)
         }
 
-        if (coordinate.x !in 0 until ROWS || coordinate.y !in 0 until COLUMNS) {
+        if (coordinate.row !in 0 until ROWS || coordinate.column !in 0 until COLUMNS) {
             return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3MarkError.OUT_OF_BOUNDS)
         }
 
-        if (getCell(coordinate).value != null) {
+        if (cellAt(coordinate).value != null) {
             return Grid3x3MarkResult.Failure(Grid3x3MarkResult.Grid3x3MarkError.OCCUPIED_CELL)
         }
 
@@ -103,7 +103,7 @@ data class Grid3x3(
         )
     }
 
-    companion object {
+    internal companion object {
         private const val COLUMNS = 3
         private const val ROWS = 3
 

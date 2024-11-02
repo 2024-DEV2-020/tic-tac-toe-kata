@@ -40,8 +40,8 @@ class TicTacToe3x3AIEasyTest {
             game = markCellAndAssertSuccess(
                 game = game,
                 coordinate = Coordinate.of(
-                    x = random.nextInt(3),
-                    y = random.nextInt(3),
+                    row = random.nextInt(3),
+                    column = random.nextInt(3),
                 ),
             ).updatedTicTacToe
 

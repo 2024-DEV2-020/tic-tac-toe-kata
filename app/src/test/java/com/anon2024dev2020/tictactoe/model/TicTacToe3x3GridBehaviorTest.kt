@@ -24,7 +24,7 @@ class TicTacToe3x3GridBehaviorTest {
     fun `new grid should be empty`() {
         for (row in 0..2) {
             for (col in 0..2) {
-                assertNull(game.getPlayerAt(Coordinate.of(row, col)))
+                assertNull(game.playerAt(Coordinate.of(row, col)))
             }
         }
     }
@@ -36,7 +36,7 @@ class TicTacToe3x3GridBehaviorTest {
         assertEquals(
             "Cell should contain X after placement",
             Player.X,
-            game.getPlayerAt(
+            game.playerAt(
                 Coordinate.of(0, 0),
             ),
         )
@@ -52,7 +52,7 @@ class TicTacToe3x3GridBehaviorTest {
         assertEquals(
             "Cell should contain O after placement",
             Player.O,
-            game.getPlayerAt(
+            game.playerAt(
                 Coordinate.of(1, 0),
             ),
         )
@@ -112,7 +112,7 @@ class TicTacToe3x3GridBehaviorTest {
 
         outOfBoundsCoordinates.forEach { coordinate ->
             assertThrows(IllegalArgumentException::class.java) {
-                game.getPlayerAt(coordinate)
+                game.playerAt(coordinate)
             }
         }
     }
@@ -204,7 +204,7 @@ class TicTacToe3x3GridBehaviorTest {
         assertEquals(
             "Cell content should not change after attempting to mark a cell in a drawn game",
             Player.O,
-            game.getPlayerAt(Coordinate.of(0, 0)),
+            game.playerAt(Coordinate.of(0, 0)),
         )
     }
 
@@ -235,7 +235,7 @@ class TicTacToe3x3GridBehaviorTest {
         // Verify that the cell content hasn't changed
         assertNull(
             "Cell content should not change after attempting to mark a cell in a won game",
-            game.getPlayerAt(Coordinate.of(2, 0)),
+            game.playerAt(Coordinate.of(2, 0)),
         )
         // Verify that the game state is still Victory
         assertTrue(

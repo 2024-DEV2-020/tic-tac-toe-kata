@@ -21,18 +21,17 @@ class TicTacToe3x3UndoBehaviorTest {
     }
 
     @Test
-    fun `undo should return OUT_OF_BOUNDS when no moves have been made`() {
+    fun `undo should return NO_MOVES_TO_UNDO when no moves have been made`() {
         val result = game.undo()
         assertTrue(
             "Expected result to be a Failure",
             result is TicTacToe3x3UndoResult.Failure,
         )
         assertEquals(
-            "Expected failure reason to be OUT_OF_BOUNDS",
-            TicTacToe3x3UndoResult.TicTacToe3x3UndoError.OUT_OF_BOUNDS,
+            "Expected failure reason to be NO_MOVES_TO_UNDO",
+            TicTacToe3x3UndoResult.TicTacToe3x3UndoError.NO_MOVES_TO_UNDO,
             (result as TicTacToe3x3UndoResult.Failure).reason,
         )
-        assertNull("Undo should return null when no moves have been made", result)
     }
 
     @Test
@@ -126,13 +125,13 @@ class TicTacToe3x3UndoBehaviorTest {
     fun `undo should restore empty cell after undoing a mark`() {
         val coordinate = Coordinate.of(1, 1)
         game = markCellAndAssertSuccess(game, coordinate).updatedTicTacToe
-        assertNotNull("Cell should be marked", game.getPlayerAt(coordinate))
+        assertNotNull("Cell should be marked", game.playerAt(coordinate))
 
         val undoResult = game.undo()
         assertTrue("Expected result to be a Success", undoResult is TicTacToe3x3UndoResult.Success)
         assertNull(
             "Cell should be empty after undo",
-            (undoResult as TicTacToe3x3UndoResult.Success).updatedTicTacToe.getPlayerAt(coordinate),
+            (undoResult as TicTacToe3x3UndoResult.Success).updatedTicTacToe.playerAt(coordinate),
         )
     }
 
@@ -172,9 +171,9 @@ class TicTacToe3x3UndoBehaviorTest {
         assertEquals(
             "New move should be reflected after undo",
             Player.O,
-            game.getPlayerAt(Coordinate.of(2, 2)),
+            game.playerAt(Coordinate.of(2, 2)),
         )
-        assertNull("Undone move should not be present", game.getPlayerAt(Coordinate.of(1, 1)))
+        assertNull("Undone move should not be present", game.playerAt(Coordinate.of(1, 1)))
     }
 
     @Test
@@ -192,7 +191,7 @@ class TicTacToe3x3UndoBehaviorTest {
         }
 
         moves.forEachIndexed { index, (coordinate, player) ->
-            val move: Grid3x3Cell = game.getCellAtTurn(index)
+            val move: Grid3x3Cell = game.getMoveMadeAt(turnIndex = index)
             assertEquals("Move ${index + 1} should be at $coordinate", coordinate, move.coordinate)
             assertEquals("Move ${index + 1} should be by player $player", player, move.value)
         }
