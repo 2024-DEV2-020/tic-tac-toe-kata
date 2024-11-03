@@ -1,14 +1,17 @@
 package com.anon2024dev2020.tictactoe.ui.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -16,13 +19,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.anon2024dev2020.tictactoe.R
 import com.anon2024dev2020.tictactoe.presentation.game.GameMode
+import com.anon2024dev2020.tictactoe.ui.common.ClickableGlowingCard
 import com.anon2024dev2020.tictactoe.ui.common.TicTacToeHeadingText
 import com.anon2024dev2020.tictactoe.ui.theme.TicTacToeTheme
 
@@ -37,67 +50,132 @@ fun HomeScreen(onGameModeClick: (GameMode) -> Unit) {
     ) {
         TicTacToeHeadingText(modifier = Modifier.fillMaxWidth())
 
-        Spacer(modifier = Modifier.size(36.dp))
+        Spacer(modifier = Modifier.size(48.dp))
 
         val haptic = LocalHapticFeedback.current
 
-        Button(
-            onClick = {
-                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                onGameModeClick(GameMode.TWO_PLAYERS)
-            },
+        GameModeButton(
+            gameMode = GameMode.TWO_PLAYERS,
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            glowingColor = MaterialTheme.colorScheme.primary,
+            onGameModeClick = onGameModeClick,
+            haptic = haptic,
+        )
+
+        Spacer(modifier = Modifier.size(32.dp))
+
+        GameModeButton(
+            gameMode = GameMode.VS_EASY_BOT,
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            glowingColor = MaterialTheme.colorScheme.secondary,
+            onGameModeClick = onGameModeClick,
+            haptic = haptic,
+        )
+
+        Spacer(modifier = Modifier.size(32.dp))
+
+        GameModeButton(
+            gameMode = GameMode.VS_IMPOSSIBLE_BOT,
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+            contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+            glowingColor = MaterialTheme.colorScheme.tertiary,
+            onGameModeClick = onGameModeClick,
+            haptic = haptic,
+        )
+    }
+}
+
+@Composable
+private fun GameModeButton(
+    gameMode: GameMode,
+    containerColor: Color,
+    contentColor: Color,
+    glowingColor: Color,
+    onGameModeClick: (GameMode) -> Unit,
+    haptic: HapticFeedback,
+) {
+    ClickableGlowingCard(
+        modifier = Modifier.width(260.dp),
+        containerColor = containerColor,
+        cornersRadius = 24.dp,
+        glowingColor = glowingColor,
+        onClick = {
+            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+            onGameModeClick(gameMode)
+        },
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
+            Box(Modifier.width(playerIconWidth), contentAlignment = Alignment.Center) {
+                Image(
+                    modifier = Modifier.size(56.dp),
+                    painter = painterResource(id = R.drawable.player_1_icon),
+                    contentDescription = null,
+                )
+            }
+
             Text(
-                modifier = Modifier,
-                text = "Player vs Player",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onBackground,
+                text = stringResource(id = R.string.vs_label),
+                style = MaterialTheme.typography.bodyLarge,
+                color = contentColor,
             )
-        }
-
-        Spacer(modifier = Modifier.size(16.dp))
-
-        Button(
-            onClick = {
-                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                onGameModeClick(GameMode.VS_EASY_BOT)
-            },
-        ) {
-            Text(
-                modifier = Modifier,
-                text = "vs Easy Bot",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
-        }
-
-        Spacer(modifier = Modifier.size(16.dp))
-
-        Button(
-            onClick = {
-                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                onGameModeClick(GameMode.VS_IMPOSSIBLE_BOT)
-            },
-        ) {
-            Text(
-                modifier = Modifier,
-                text = "vs Impossible Bot",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onBackground,
-            )
+            OpponentIcon(gameMode)
         }
     }
 }
 
-// TODO: remove
+private val playerIconWidth = 68.dp
+
 @Composable
-fun HomeScreenFABButton(onClick: () -> Unit) {
-    ExtendedFloatingActionButton(
-        contentColor = MaterialTheme.colorScheme.background,
-        containerColor = MaterialTheme.colorScheme.onBackground,
-        onClick = onClick,
-    ) {
-        Text(text = stringResource(id = R.string.fab_text_navigate_to_game))
+private fun OpponentIcon(gameMode: GameMode) {
+    Box(modifier = Modifier.width(playerIconWidth), contentAlignment = Alignment.Center) {
+        Image(
+            modifier = Modifier.size(56.dp),
+            painter = painterResource(
+                id = when (gameMode) {
+                    GameMode.TWO_PLAYERS -> R.drawable.player_2_icon
+                    GameMode.VS_EASY_BOT -> R.drawable.easy_bot_icon
+                    GameMode.VS_IMPOSSIBLE_BOT -> R.drawable.impossible_bot_icon
+                },
+            ),
+            contentDescription = null,
+        )
+        if (gameMode != GameMode.TWO_PLAYERS) {
+            Text(
+                modifier = Modifier.align(Alignment.BottomCenter),
+                text = stringResource(
+                    id = when (gameMode) {
+                        GameMode.VS_EASY_BOT -> R.string.easy_bot_image_badge
+                        GameMode.VS_IMPOSSIBLE_BOT -> R.string.impossible_bot_image_badge
+                        else -> throw IllegalArgumentException("Invalid game mode")
+                    },
+                ),
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    fontStyle = FontStyle.Italic,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 10.sp,
+                    lineHeight = 14.sp,
+                    shadow = Shadow(
+                        color = Color.Black.copy(alpha = 0.5f),
+                        offset = Offset(2f, 2f),
+                        blurRadius = 3f,
+                    ),
+                    textAlign = TextAlign.Center,
+                ),
+                color = when (gameMode) {
+                    GameMode.VS_EASY_BOT -> MaterialTheme.colorScheme.onSecondaryContainer
+                    GameMode.VS_IMPOSSIBLE_BOT -> MaterialTheme.colorScheme.onTertiaryContainer
+                    else -> throw IllegalArgumentException("Invalid game mode")
+                },
+            )
+        }
     }
 }
 
@@ -112,8 +190,6 @@ private fun PreviewHomeScreen() {
                 Modifier
                     .fillMaxSize(),
                 floatingActionButton = {
-                    HomeScreenFABButton {
-                    }
                 },
             ) { innerPadding ->
                 Column(

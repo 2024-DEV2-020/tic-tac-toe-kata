@@ -18,7 +18,8 @@ import kotlinx.serialization.Serializable
 fun NavigationHost(
     modifier: Modifier,
     navController: NavHostController,
-    setGameScreenFABButtonOnClick: (() -> Unit) -> Unit,
+    setGameScreenUndoFABButtonOnClick: (() -> Unit) -> Unit,
+    setGameScreenRestartFABButtonOnClick: (() -> Unit) -> Unit,
 ) {
     NavHost(
         modifier = modifier,
@@ -36,7 +37,8 @@ fun NavigationHost(
                 onNavigateToHome = {
                     navController.navigateToHome()
                 },
-                setGameScreenFABOnClick = setGameScreenFABButtonOnClick,
+                setGameScreenUndoFABButtonOnClick = setGameScreenUndoFABButtonOnClick,
+                setGameScreenRestartFABButtonOnClick = setGameScreenRestartFABButtonOnClick
             )
         }
     }

@@ -16,7 +16,7 @@ val pressStart2P = FontFamily(
 )
 
 // Set of Material typography styles to start with
-val Typography =
+val TicTacToeTypography =
     Typography(
         displayLarge = TextStyle(
             fontFamily = pressStart2P,
@@ -24,15 +24,6 @@ val Typography =
             fontSize = 22.sp,
             lineHeight = 44.sp,
             letterSpacing = 0.sp,
-            shadow = Shadow(color = Color.Yellow, offset = Offset(x = 3F, y = 3F), blurRadius = 3f),
-        ),
-        bodyLarge =
-        TextStyle(
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.Normal,
-            fontSize = 16.sp,
-            lineHeight = 24.sp,
-            letterSpacing = 0.5.sp,
         ),
         titleMedium = TextStyle(
             fontFamily = pressStart2P,
@@ -41,20 +32,12 @@ val Typography =
             lineHeight = 28.sp,
             letterSpacing = 0.sp,
         ),
-        /* Other default text styles to override
-        titleLarge = TextStyle(
-            fontFamily = FontFamily.Default,
+        bodyLarge =
+        TextStyle(
+            fontFamily = pressStart2P,
             fontWeight = FontWeight.Normal,
-            fontSize = 22.sp,
-            lineHeight = 28.sp,
-            letterSpacing = 0.sp
+            fontSize = 14.sp,
+            lineHeight = 24.sp,
+            letterSpacing = 0.5.sp,
         ),
-        labelSmall = TextStyle(
-            fontFamily = FontFamily.Default,
-            fontWeight = FontWeight.Medium,
-            fontSize = 11.sp,
-            lineHeight = 16.sp,
-            letterSpacing = 0.5.sp
-        )
-         */
     )

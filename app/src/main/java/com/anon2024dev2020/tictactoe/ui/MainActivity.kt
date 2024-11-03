@@ -21,7 +21,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.anon2024dev2020.tictactoe.ui.game.GameScreenFABButton
 import com.anon2024dev2020.tictactoe.ui.home.HomeScreen
-import com.anon2024dev2020.tictactoe.ui.home.HomeScreenFABButton
 import com.anon2024dev2020.tictactoe.ui.navigation.NavigationHost
 import com.anon2024dev2020.tictactoe.ui.navigation.destinations.game.Game
 import com.anon2024dev2020.tictactoe.ui.theme.TicTacToeTheme
@@ -36,7 +35,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             // Strategy to set a FAB onClick, in a Single Activity App Architecture
-            val (gameScreenFABButtonOnClick, setGameScreenFABButtonOnClick) =
+            val (gameScreenUndoFABButtonOnClick, setGameScreenUndoFABButtonOnClick) =
+                remember {
+                    mutableStateOf<(() -> Unit)?>(
+                        null,
+                    )
+                }
+
+            val (gameScreenRestartFABButtonOnClick, setGameScreenRestartFABButtonOnClick) =
                 remember {
                     mutableStateOf<(() -> Unit)?>(
                         null,
@@ -52,14 +58,16 @@ class MainActivity : ComponentActivity() {
                             .currentBackStackEntryAsState()
                             .value
                             ?.destination,
-                        gameScreenFABButtonOnClick = gameScreenFABButtonOnClick,
+                        gameScreenUndoFABButtonOnClick = gameScreenUndoFABButtonOnClick,
+                        gameScreenRestartFABButtonOnClick = gameScreenRestartFABButtonOnClick
                     )
                 },
             ) { scaffoldInnerPadding ->
                 NavigationHost(
                     modifier = Modifier.padding(scaffoldInnerPadding),
                     navController = navController,
-                    setGameScreenFABButtonOnClick = setGameScreenFABButtonOnClick,
+                    setGameScreenUndoFABButtonOnClick = setGameScreenUndoFABButtonOnClick,
+                    setGameScreenRestartFABButtonOnClick = setGameScreenRestartFABButtonOnClick,
                 )
             }
         }
@@ -87,10 +95,11 @@ private fun RootComposableAsScaffold(
 @Composable
 fun CurrentFloatingActionButton(
     currentDestination: NavDestination?,
-    gameScreenFABButtonOnClick: (() -> Unit)?,
-) {
+    gameScreenUndoFABButtonOnClick: (() -> Unit)?,
+    gameScreenRestartFABButtonOnClick: (() -> Unit)?,
+    ) {
     if (currentDestination?.hasRoute(Game::class) == true) {
-        GameScreenFABButton(onClick = gameScreenFABButtonOnClick ?: {})
+        GameScreenFABButton(onUndoClick = gameScreenUndoFABButtonOnClick ?: {}, onRestartClick = gameScreenRestartFABButtonOnClick ?: {})
     }
 }
 
@@ -106,8 +115,7 @@ fun PreviewRootComposable() {
             ) {
                 RootComposableAsScaffold(
                     currentFloatingActionButton = {
-                        HomeScreenFABButton {
-                        }
+
                     },
                 ) {
                     HomeScreen {
