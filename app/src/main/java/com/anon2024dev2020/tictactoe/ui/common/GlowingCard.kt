@@ -72,6 +72,7 @@ fun GlowingCard(
 
 // ///////////////////////////////////////////////////////////////////
 
+// credit: https://github.com/lofcoding/ComposeGlowingCard/blob/master/app/src/main/java/com/loc/composeglowingcard/GlowingCard.kt
 @Composable
 fun ClickableGlowingCard(
     glowingColor: Color,

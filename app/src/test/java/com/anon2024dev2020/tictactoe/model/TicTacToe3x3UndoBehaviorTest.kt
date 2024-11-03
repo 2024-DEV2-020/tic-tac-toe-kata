@@ -1,7 +1,6 @@
 package com.anon2024dev2020.tictactoe.model
 
 import com.anon2024dev2020.tictactoe.domain.model.Coordinate
-import com.anon2024dev2020.tictactoe.domain.model.Grid3x3Cell
 import com.anon2024dev2020.tictactoe.domain.model.Player
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3
 import com.anon2024dev2020.tictactoe.domain.model.TicTacToe3x3UndoResult
@@ -102,7 +101,6 @@ class TicTacToe3x3UndoBehaviorTest {
         game = markCellAndAssertSuccess(game, Coordinate.of(1, 1)).updatedTicTacToe
 
         // before undo it's X's turn
-        // TODO:  assert grid contents are changed
         val undoResult1 = game.undo()
         assertTrue("Expected result to be a Success", undoResult1 is TicTacToe3x3UndoResult.Success)
         assertEquals(
@@ -139,7 +137,6 @@ class TicTacToe3x3UndoBehaviorTest {
     fun `multiple undo's should correctly revert game to initial state`() {
         val initialState = game.copy()
         repeat(5) { i ->
-            // TODO: check what modulo does, and maybe use hardcoded moves
             game = markCellAndAssertSuccess(game, Coordinate.of(i % 3, i / 3)).updatedTicTacToe
         }
 
@@ -174,26 +171,5 @@ class TicTacToe3x3UndoBehaviorTest {
             game.playerAt(Coordinate.of(2, 2)),
         )
         assertNull("Undone move should not be present", game.playerAt(Coordinate.of(1, 1)))
-    }
-
-    @Test
-    fun `should be able to retrieve all moves made in the game at a specific point in time`() {
-        val moves = setOf(
-            Coordinate.of(0, 0) to Player.X,
-            Coordinate.of(1, 1) to Player.O,
-            Coordinate.of(2, 2) to Player.X,
-            Coordinate.of(0, 2) to Player.O,
-            Coordinate.of(1, 0) to Player.X,
-        )
-
-        moves.forEach { (coordinate, _) ->
-            game = markCellAndAssertSuccess(game, coordinate).updatedTicTacToe
-        }
-
-        moves.forEachIndexed { index, (coordinate, player) ->
-            val move: Grid3x3Cell = game.getMoveMadeAt(turnIndex = index)
-            assertEquals("Move ${index + 1} should be at $coordinate", coordinate, move.coordinate)
-            assertEquals("Move ${index + 1} should be by player $player", player, move.value)
-        }
     }
 }

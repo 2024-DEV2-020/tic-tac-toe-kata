@@ -8,6 +8,7 @@ package com.anon2024dev2020.tictactoe.domain.model
  *
  * @property currentPlayer The player whose turn it is to make a move.
  * @property grid The 3x3 grid representing the game board.
+ * @property history List of previous game states.
  */
 data class TicTacToe3x3(
     val currentPlayer: Player = Player.X,
@@ -103,36 +104,6 @@ data class TicTacToe3x3(
                 ),
             )
         }
-    }
-
-    /**
-     * Retrieves the move made at a specific turn in the game's history.
-     *
-     * @param turnIndex The index of the turn in the game's history (0-based, LIFO).
-     * @return The [Grid3x3Cell] representing the move made at the specified turn.
-     */
-    fun getMoveMadeAt(turnIndex: Int): Grid3x3Cell {
-        require(turnIndex >= 0 && turnIndex < history.size) {
-            "Turn index out of bounds: $turnIndex. History size: ${history.size}"
-        }
-//        val gridAtTurn = history[turnIndex]
-//        if (turnIndex == 0) {
-//            // If one turn has been played, there will only be one marked cell
-//            return gridAtTurn.grid3x3.flatten().first { it.value != null }
-//        } else {
-//            // If multiple turns have been played, extract the diff
-//            val previousGrid = history[turnIndex - 1]
-//
-//            val changedCell = gridAtTurn.grid3x3
-//                .flatten()
-//                .zip(previousGrid.grid3x3.flatten())
-//                .find { (currentCell, previousCell) -> currentCell.value != previousCell.value }
-//                ?.first
-//
-//            return changedCell
-//                ?: throw IllegalStateException("No cell change found between consecutive turns")
-//        } d
-        TODO()
     }
 
     /**

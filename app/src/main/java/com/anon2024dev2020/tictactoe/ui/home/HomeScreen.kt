@@ -74,17 +74,6 @@ fun HomeScreen(onGameModeClick: (GameMode) -> Unit) {
                 onGameModeClick = onGameModeClick,
                 haptic = haptic,
             )
-
-            Spacer(modifier = Modifier.size(32.dp))
-
-            GameModeButton(
-                gameMode = GameMode.VS_IMPOSSIBLE_BOT,
-                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                glowingColor = MaterialTheme.colorScheme.tertiary,
-                onGameModeClick = onGameModeClick,
-                haptic = haptic,
-            )
         }
     }
 }

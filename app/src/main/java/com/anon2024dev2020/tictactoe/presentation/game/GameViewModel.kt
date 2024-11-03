@@ -44,64 +44,46 @@ class GameViewModel
 
     private fun handleUndoClick(currentState: UiState.Success) {
         when (val result = currentState.game.undo()) {
-            is TicTacToe3x3UndoResult.Failure -> {
-                // TODO: play failure sound
-            }
+            is TicTacToe3x3UndoResult.Failure -> Unit
 
-            is TicTacToe3x3UndoResult.Success -> {
-                // TODO: play generic undo sound
+            is TicTacToe3x3UndoResult.Success ->
                 mutableUiState.value = currentState.copy(game = result.updatedTicTacToe)
-            }
         }
     }
 
     private fun handleCellClick(currentState: UiState.Success, coordinate: Coordinate) {
         when (val result = currentState.game.markCell(coordinate)) {
-            is TicTacToe3x3MarkResult.Failure -> {
-                // TODO: play failure sound
-            }
+            is TicTacToe3x3MarkResult.Failure -> Unit
 
-            is TicTacToe3x3MarkResult.Success -> updateViewModelGameState(
+            is TicTacToe3x3MarkResult.Success -> handleCellClickSuccess(
                 currentState = currentState,
                 updatedGame = result.updatedTicTacToe,
             )
         }
     }
 
-    private fun updateViewModelGameState(currentState: UiState.Success, updatedGame: TicTacToe3x3) {
+    private fun handleCellClickSuccess(currentState: UiState.Success, updatedGame: TicTacToe3x3) {
         when (val updatedGameState = updatedGame.state) {
-            is TicTacToe3x3State.Draw -> {
-                // TODO: play draw sound
-                mutableUiState.value = currentState.copy(
-                    game = updatedGame,
-                    totalDraws = currentState.totalDraws + 1,
-                )
-            }
+            is TicTacToe3x3State.Draw -> mutableUiState.value = currentState.copy(
+                game = updatedGame,
+                totalDraws = currentState.totalDraws + 1,
+            )
 
-            is TicTacToe3x3State.InProgress -> {
-                // TODO: play mark placement sound
-                mutableUiState.value = currentState.copy(
-                    game = updatedGame,
-                )
-            }
+            is TicTacToe3x3State.InProgress -> mutableUiState.value = currentState.copy(
+                game = updatedGame,
+            )
 
             is TicTacToe3x3State.Victory -> {
                 when (updatedGameState.winner) {
-                    Player.X -> {
-                        // TODO: play victory sound
-                        mutableUiState.value = currentState.copy(
-                            game = updatedGame,
-                            xTotalGamesWon = currentState.xTotalGamesWon + 1,
-                        )
-                    }
+                    Player.X -> mutableUiState.value = currentState.copy(
+                        game = updatedGame,
+                        xTotalGamesWon = currentState.xTotalGamesWon + 1,
+                    )
 
-                    Player.O -> {
-                        // TODO: play victory sound
-                        mutableUiState.value = currentState.copy(
-                            game = updatedGame,
-                            oTotalGamesWon = currentState.oTotalGamesWon + 1,
-                        )
-                    }
+                    Player.O -> mutableUiState.value = currentState.copy(
+                        game = updatedGame,
+                        oTotalGamesWon = currentState.oTotalGamesWon + 1,
+                    )
                 }
             }
         }
