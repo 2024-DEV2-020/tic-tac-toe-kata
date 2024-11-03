@@ -49,6 +49,13 @@ class MainActivity : ComponentActivity() {
                     )
                 }
 
+            val (gameScreenGoHomeFABButtonOnClick, setGameScreenGoHomeFABButtonOnClick) =
+                remember {
+                    mutableStateOf<(() -> Unit)?>(
+                        null,
+                    )
+                }
+
             val navController = rememberNavController()
 
             RootComposableAsScaffold(
@@ -59,7 +66,8 @@ class MainActivity : ComponentActivity() {
                             .value
                             ?.destination,
                         gameScreenUndoFABButtonOnClick = gameScreenUndoFABButtonOnClick,
-                        gameScreenRestartFABButtonOnClick = gameScreenRestartFABButtonOnClick
+                        gameScreenRestartFABButtonOnClick = gameScreenRestartFABButtonOnClick,
+                        gameScreenGoHomeFABButtonOnClick = gameScreenGoHomeFABButtonOnClick,
                     )
                 },
             ) { scaffoldInnerPadding ->
@@ -68,6 +76,7 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     setGameScreenUndoFABButtonOnClick = setGameScreenUndoFABButtonOnClick,
                     setGameScreenRestartFABButtonOnClick = setGameScreenRestartFABButtonOnClick,
+                    setGameScreenGoHomeFABButtonOnClick = setGameScreenGoHomeFABButtonOnClick,
                 )
             }
         }
@@ -97,9 +106,14 @@ fun CurrentFloatingActionButton(
     currentDestination: NavDestination?,
     gameScreenUndoFABButtonOnClick: (() -> Unit)?,
     gameScreenRestartFABButtonOnClick: (() -> Unit)?,
-    ) {
+    gameScreenGoHomeFABButtonOnClick: (() -> Unit)?,
+) {
     if (currentDestination?.hasRoute(Game::class) == true) {
-        GameScreenFABButton(onUndoClick = gameScreenUndoFABButtonOnClick ?: {}, onRestartClick = gameScreenRestartFABButtonOnClick ?: {})
+        GameScreenFABButton(
+            onUndoClick = gameScreenUndoFABButtonOnClick ?: {},
+            onRestartClick = gameScreenRestartFABButtonOnClick ?: {},
+            onGoHomeClick = gameScreenGoHomeFABButtonOnClick ?: {},
+        )
     }
 }
 
@@ -115,7 +129,6 @@ fun PreviewRootComposable() {
             ) {
                 RootComposableAsScaffold(
                     currentFloatingActionButton = {
-
                     },
                 ) {
                     HomeScreen {

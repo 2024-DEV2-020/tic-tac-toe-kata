@@ -246,20 +246,4 @@ object TicTacToeColors {
         val onContainerDark = onSecondaryContainerDark
         val accentDark = tertiaryDark
     }
-
-    // Game Board and UI Colors
-    object GameUI {
-        val background = backgroundLight
-        val onBackground = onBackgroundLight
-        val surface = surfaceLight
-        val onSurface = onSurfaceLight
-        val outline = outlineLight
-
-        // Dark theme variants
-        val backgroundDark = backgroundDarkMediumContrast
-        val onBackgroundDark = onBackgroundDarkMediumContrast
-        val surfaceDark = surfaceDarkMediumContrast
-        val onSurfaceDark = onSurfaceDarkMediumContrast
-        val outlineDark = outlineDarkMediumContrast
-    }
 }

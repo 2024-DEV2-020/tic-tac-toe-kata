@@ -78,7 +78,6 @@ class GameViewModelTest {
         assertEquals(TicTacToe3x3(), updatedState.game)
     }
 
-    // TODO: pass it
     @Test
     fun gameViewModel_UndoClick_ShouldRevertLastMove() {
         viewModel.onEvent(GameViewModel.UiEvent.CellClick(Coordinate.of(0, 0)))

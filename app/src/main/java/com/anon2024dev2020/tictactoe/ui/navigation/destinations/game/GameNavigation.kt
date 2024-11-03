@@ -25,31 +25,51 @@ internal fun NavController.navigateToGame(mode: GameMode) {
 
 internal fun NavGraphBuilder.gameDestination(
     onNavigateToHome: () -> Unit,
-    setGameScreenFABOnClick: (() -> Unit) -> Unit,
+    setGameScreenUndoFABButtonOnClick: (() -> Unit) -> Unit,
+    setGameScreenRestartFABButtonOnClick: (() -> Unit) -> Unit,
+    setGameScreenGoHomeFABButtonOnClick: (() -> Unit) -> Unit,
 ) {
     composable<Game> { navBackStackEntry ->
-        // TODO: use for bot
+        // TODO: use to create bot driver
         val gameMode: GameMode = navBackStackEntry.toRoute<Game>().mode
 
         val viewModel: GameViewModel = hiltViewModel()
 
         val haptic = LocalHapticFeedback.current
-        LaunchedEffect(Unit) {
-            setGameScreenFABOnClick {
-                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                onNavigateToHome()
-            }
-        }
 
         val uiState = viewModel.uiState.collectAsState()
 
         when (val state = uiState.value) {
             is GameViewModel.UiState.Success -> {
+                LaunchedEffect(Unit) {
+                    setGameScreenUndoFABButtonOnClick {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        viewModel.onEvent(GameViewModel.UiEvent.UndoClick)
+                    }
+                    setGameScreenRestartFABButtonOnClick {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        viewModel.onEvent(GameViewModel.UiEvent.RestartClick)
+                    }
+                    setGameScreenGoHomeFABButtonOnClick {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        onNavigateToHome()
+                    }
+                }
+
                 GameScreen(
                     game = state.game,
                     xTotalGamesWon = state.xTotalGamesWon,
                     oTotalGamesWon = state.oTotalGamesWon,
                     totalDraws = state.totalDraws,
+                    gameMode = gameMode,
+                    onCellClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        viewModel.onEvent(GameViewModel.UiEvent.CellClick(it))
+                    },
+                    onRestartClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        viewModel.onEvent(GameViewModel.UiEvent.RestartClick)
+                    },
                 )
             }
         }

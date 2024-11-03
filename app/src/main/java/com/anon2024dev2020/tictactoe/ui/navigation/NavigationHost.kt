@@ -20,6 +20,7 @@ fun NavigationHost(
     navController: NavHostController,
     setGameScreenUndoFABButtonOnClick: (() -> Unit) -> Unit,
     setGameScreenRestartFABButtonOnClick: (() -> Unit) -> Unit,
+    setGameScreenGoHomeFABButtonOnClick: (() -> Unit) -> Unit,
 ) {
     NavHost(
         modifier = modifier,
@@ -38,7 +39,8 @@ fun NavigationHost(
                     navController.navigateToHome()
                 },
                 setGameScreenUndoFABButtonOnClick = setGameScreenUndoFABButtonOnClick,
-                setGameScreenRestartFABButtonOnClick = setGameScreenRestartFABButtonOnClick
+                setGameScreenRestartFABButtonOnClick = setGameScreenRestartFABButtonOnClick,
+                setGameScreenGoHomeFABButtonOnClick = setGameScreenGoHomeFABButtonOnClick,
             )
         }
     }

@@ -1,7 +1,6 @@
 package com.anon2024dev2020.tictactoe.ui.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -41,49 +41,51 @@ import com.anon2024dev2020.tictactoe.ui.theme.TicTacToeTheme
 
 @Composable
 fun HomeScreen(onGameModeClick: (GameMode) -> Unit) {
-    Column(
+    Box(
         Modifier
             .fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
             .padding(top = 68.dp, start = 16.dp, end = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        TicTacToeHeadingText(modifier = Modifier.fillMaxWidth())
+        Column(
+            Modifier
+                .align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            TicTacToeHeadingText(modifier = Modifier.fillMaxWidth())
+            Spacer(modifier = Modifier.size(48.dp))
 
-        Spacer(modifier = Modifier.size(48.dp))
+            val haptic = LocalHapticFeedback.current
+            GameModeButton(
+                gameMode = GameMode.TWO_PLAYERS,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                glowingColor = MaterialTheme.colorScheme.primary,
+                onGameModeClick = onGameModeClick,
+                haptic = haptic,
+            )
 
-        val haptic = LocalHapticFeedback.current
+            Spacer(modifier = Modifier.size(32.dp))
 
-        GameModeButton(
-            gameMode = GameMode.TWO_PLAYERS,
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-            glowingColor = MaterialTheme.colorScheme.primary,
-            onGameModeClick = onGameModeClick,
-            haptic = haptic,
-        )
+            GameModeButton(
+                gameMode = GameMode.VS_EASY_BOT,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                glowingColor = MaterialTheme.colorScheme.secondary,
+                onGameModeClick = onGameModeClick,
+                haptic = haptic,
+            )
 
-        Spacer(modifier = Modifier.size(32.dp))
+            Spacer(modifier = Modifier.size(32.dp))
 
-        GameModeButton(
-            gameMode = GameMode.VS_EASY_BOT,
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-            glowingColor = MaterialTheme.colorScheme.secondary,
-            onGameModeClick = onGameModeClick,
-            haptic = haptic,
-        )
-
-        Spacer(modifier = Modifier.size(32.dp))
-
-        GameModeButton(
-            gameMode = GameMode.VS_IMPOSSIBLE_BOT,
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
-            glowingColor = MaterialTheme.colorScheme.tertiary,
-            onGameModeClick = onGameModeClick,
-            haptic = haptic,
-        )
+            GameModeButton(
+                gameMode = GameMode.VS_IMPOSSIBLE_BOT,
+                containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+                glowingColor = MaterialTheme.colorScheme.tertiary,
+                onGameModeClick = onGameModeClick,
+                haptic = haptic,
+            )
+        }
     }
 }
 
@@ -113,20 +115,13 @@ private fun GameModeButton(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Box(Modifier.width(playerIconWidth), contentAlignment = Alignment.Center) {
-                Image(
-                    modifier = Modifier.size(56.dp),
-                    painter = painterResource(id = R.drawable.player_1_icon),
-                    contentDescription = null,
-                )
-            }
-
+            PlayerOneIcon(Modifier.width(playerIconWidth))
             Text(
                 text = stringResource(id = R.string.vs_label),
                 style = MaterialTheme.typography.bodyLarge,
                 color = contentColor,
             )
-            OpponentIcon(gameMode)
+            OpponentIcon(modifier = Modifier.width(playerIconWidth), gameMode = gameMode)
         }
     }
 }
@@ -134,8 +129,19 @@ private fun GameModeButton(
 private val playerIconWidth = 68.dp
 
 @Composable
-private fun OpponentIcon(gameMode: GameMode) {
-    Box(modifier = Modifier.width(playerIconWidth), contentAlignment = Alignment.Center) {
+fun PlayerOneIcon(modifier: Modifier) {
+    Box(modifier, contentAlignment = Alignment.Center) {
+        Image(
+            modifier = Modifier.size(56.dp),
+            painter = painterResource(id = R.drawable.player_1_icon),
+            contentDescription = null,
+        )
+    }
+}
+
+@Composable
+fun OpponentIcon(modifier: Modifier, gameMode: GameMode, tinyBadge: Boolean = false) {
+    Box(modifier = modifier, contentAlignment = Alignment.Center) {
         Image(
             modifier = Modifier.size(56.dp),
             painter = painterResource(
@@ -149,19 +155,34 @@ private fun OpponentIcon(gameMode: GameMode) {
         )
         if (gameMode != GameMode.TWO_PLAYERS) {
             Text(
-                modifier = Modifier.align(Alignment.BottomCenter),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .offset(
+                        y = if (tinyBadge && gameMode == GameMode.VS_EASY_BOT) {
+                            8.dp
+                        } else if (tinyBadge) 10.dp else 0.dp,
+                    ),
                 text = stringResource(
                     id = when (gameMode) {
                         GameMode.VS_EASY_BOT -> R.string.easy_bot_image_badge
-                        GameMode.VS_IMPOSSIBLE_BOT -> R.string.impossible_bot_image_badge
+                        GameMode.VS_IMPOSSIBLE_BOT -> {
+                            if (tinyBadge) {
+                                R.string.impossible_bot_image_badge
+                            } else {
+                                R.string.impossible_bot_image_badge_with_new_line
+                            }
+                        }
+
                         else -> throw IllegalArgumentException("Invalid game mode")
                     },
                 ),
                 style = MaterialTheme.typography.bodyLarge.copy(
                     fontStyle = FontStyle.Italic,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 10.sp,
-                    lineHeight = 14.sp,
+                    fontSize = if (tinyBadge && gameMode == GameMode.VS_IMPOSSIBLE_BOT) {
+                        6.sp
+                    } else if (tinyBadge) 8.sp else 10.sp,
+                    lineHeight = if (tinyBadge) 6.sp else 14.sp,
                     shadow = Shadow(
                         color = Color.Black.copy(alpha = 0.5f),
                         offset = Offset(2f, 2f),

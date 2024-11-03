@@ -10,11 +10,17 @@
     <string name="win_count_label">%d</string>
     <string name="vs_label">VS</string>
     <string name="easy_bot_image_badge">EASY</string>
-    <string name="impossible_bot_image_badge">IMPO-\nSSIBLE</string>
+    <string name="impossible_bot_image_badge">IMPOSSIBLE</string>
+    <string name="impossible_bot_image_badge_with_new_line">IMPO\nSSIBLE</string>
     <string name="go_home_icon_desc">Go back to game menu</string>
     <string name="undo_button_desc">undo last turn</string>
     <string name="restart_button_desc">reset game</string>
     <string name="victory_dialog_title">%s Wins!</string>
     <string name="victory_dialog_message">Games won: %s</string>
     <string name="new_game_btn_desc">Start new game</string>
+    <string name="number_of_draws_label">Draws: %s</string>
+    <string name="current_thrower_label_x">Player 1 (X)\'s Turn</string>
+    <string name="current_thrower_label_o">Player 2 (O)\'s Turn</string>
+    <string name="draw_dialog_title">DRAW!</string>
+    <string name="draw_dialog_count_body_text">Games drawn: %s</string>
 </resources>

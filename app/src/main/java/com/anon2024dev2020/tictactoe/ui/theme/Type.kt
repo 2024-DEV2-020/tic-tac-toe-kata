@@ -1,9 +1,6 @@
 package com.anon2024dev2020.tictactoe.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -37,6 +34,14 @@ val TicTacToeTypography =
             fontFamily = pressStart2P,
             fontWeight = FontWeight.Normal,
             fontSize = 14.sp,
+            lineHeight = 24.sp,
+            letterSpacing = 0.5.sp,
+        ),
+        bodySmall =
+        TextStyle(
+            fontFamily = pressStart2P,
+            fontWeight = FontWeight.Normal,
+            fontSize = 12.sp,
             lineHeight = 24.sp,
             letterSpacing = 0.5.sp,
         ),
