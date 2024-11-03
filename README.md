@@ -1,6 +1,9 @@
 # Tic Tac Toe Kata Implementation - 2024-DEV2-020
 
-![home screen shot](./screenshot_home_page.png) ![player vs player screen shot](./screenshot_player_vs_player_page.png)
+<p float="left">
+  <img src="./screenshot_home_page.png" width="240" />
+  <img src="./screenshot_player_vs_player_page.png" width="240" /> 
+</p>
 
 ## Overview
 Anonymized Tic Tac Toe [Kata](https://github.com/stephane-genicot/katas/blob/master/TicTacToe.md]) submission for the BNP Paribas Fortis Android role. Emphasizing TDD, clean code, and software craftsmanship.
