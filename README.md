@@ -6,7 +6,7 @@
 </p>
 
 ## Overview
-Anonymized Tic Tac Toe [Kata](https://github.com/stephane-genicot/katas/blob/master/TicTacToe.md]) submission for the BNP Paribas Fortis Android role. Emphasizing TDD, clean code, and software craftsmanship.
+Anonymized Tic Tac Toe [Kata](https://github.com/stephane-genicot/katas/blob/master/TicTacToe.md]) submission for the BNP Paribas Fortis Android role. Emphasizing TDD, clean code, and software craftsmanship. Built with Jetpack Compose, Single Activity UI Architecture, MVVM pattern, and a stateless domain model.
 
 ## Tech Stack
 - Language: **Kotlin**
