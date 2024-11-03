@@ -1,5 +1,7 @@
 # Tic Tac Toe Kata Implementation - 2024-DEV2-020
 
+![home screen shot](./screenshot_home_page.png) ![player vs player screen shot](./screenshot_player_vs_player_page.png)
+
 ## Overview
 Anonymized Tic Tac Toe [Kata](https://github.com/stephane-genicot/katas/blob/master/TicTacToe.md]) submission for the BNP Paribas Fortis Android role. Emphasizing TDD, clean code, and software craftsmanship.
 
@@ -11,6 +13,15 @@ Anonymized Tic Tac Toe [Kata](https://github.com/stephane-genicot/katas/blob/mas
 - Dependency Injection: **Hilt**
 - Build System: **Gradle**
 - Code Quality: **Ktlint**
+
+## TDD, Clean-Code, Code Quality Approach
+- Unit tests for all game logic
+- MVVM
+- SOLID principles
+- Kotlin coding conventions
+- Stateless data classes
+- Applied Linter (ktlint)
+
 
 ## Building the project
 1. Clone the repository:
@@ -32,26 +43,10 @@ git clone https://github.com/2024-DEV2-020/tic-tac-toe-kata.git
 ./gradlew installDebug
 ```
 
+Alternatively download and install the debug APK on an Android device/eumlator from the github releases tab.
+
 ## Running the Tests
-All JUnit tests are in [TODO]
+Android tests are in `app/src/androidTest/java/com`, JUnit tests are in `app/src/test/java/com`. Run via UI or:
 ```bash
 ./gradlew test
 ```
-
-## Development Approach
-- [TODO: describe solution]
-
-## Code Quality Measures
-- Unit tests for all game logic
-- Clean architecture principles
-- SOLID principles
-- Kotlin coding conventions
-- Applied Linter (ktlint)
-
-## Design Patterns Used
-- [TODO: list the key design patterns implemented]
-- [TODO: explain why each pattern was chosen]
-
-## Future Improvements
-- [TODO: list potential enhancements]
-- [TODO: list known limitations]
