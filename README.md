@@ -5,8 +5,10 @@
   <img src="./screenshot_player_vs_player_page.png" width="240" /> 
 </p>
 
-## Overview
-Anonymized Tic Tac Toe [Kata](https://github.com/stephane-genicot/katas/blob/master/TicTacToe.md]) submission for the BNP Paribas Fortis Android role. Emphasizing TDD, clean code, and software craftsmanship. Built with Jetpack Compose, Single Activity UI Architecture, MVVM pattern, and a stateless domain model.
+## Approach for [Kata](https://github.com/stephane-genicot/katas/blob/master/TicTacToe.md]) 
+
+I implemented a scalable Tic-Tac-Toe solution by breaking down the game into granular components (e.g., TicTacToe3x3 vs Game/TicTacToe). Following TDD, I began with comprehensive unit tests that fail before implementing a component. The domain model classes are immutable data classes, the functions that "change state" return an updated deep copy of the class; this pattern works well for Jetpack Compose recompositions (among other benefits). The code is separated in packages respecting MVVM architecture. Hilt injects the main TicTacToe3x3 object into a ViewModel, orchestrating unidirectional data flow to the Jetpack Compose UI.
+
 
 ## Tech Stack
 - Language: **Kotlin**
@@ -16,15 +18,6 @@ Anonymized Tic Tac Toe [Kata](https://github.com/stephane-genicot/katas/blob/mas
 - Dependency Injection: **Hilt**
 - Build System: **Gradle**
 - Code Quality: **Ktlint**
-
-## TDD, Clean-Code, Code Quality Approach
-- Unit tests for all game logic
-- MVVM
-- SOLID principles
-- Kotlin coding conventions
-- Stateless data classes
-- Applied Linter (ktlint)
-
 
 ## Building the project
 1. Clone the repository:
@@ -46,7 +39,7 @@ git clone https://github.com/2024-DEV2-020/tic-tac-toe-kata.git
 ./gradlew installDebug
 ```
 
-Alternatively download and install the debug APK on an Android device/eumlator from the github releases tab.
+Alternatively, download and install the debug APK, from the github releases tab, on an Android device/emulator.
 
 ## Running the Tests
 Android tests are in `app/src/androidTest/java/com`, JUnit tests are in `app/src/test/java/com`. Run via UI or:
